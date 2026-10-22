@@ -207,30 +207,72 @@ p { margin: 0 0 1em; }
   .supply-step:not(:last-child)::after { right: auto; left: 28px; top: auto; bottom: -13px; transform: rotate(90deg); }
 }
 
-/* Route map: Bursa → Elk Grove Village */
-.route-map { margin: 0 0 32px; border: 1px solid var(--rule-strong); padding: clamp(12px, 3vw, 28px); position: relative; }
-.route-map svg { width: 100%; height: auto; overflow: visible; }
-.route-map .land { fill: none; stroke: #4a5c9e; stroke-width: 3.6; stroke-linecap: round; }
-.route-map .route-base { fill: none; stroke: rgba(231,128,124,.35); stroke-width: 2; stroke-dasharray: 2 7; stroke-linecap: round; }
-.route-map .route { fill: none; stroke: #e7807c; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
-.route-map.play .route { transition: stroke-dashoffset 2.6s cubic-bezier(.45,0,.25,1); stroke-dashoffset: 0; }
-.route-map .pin circle { fill: #fff; }
-.route-map .pin-factory circle:not(.halo) { fill: var(--red); stroke: #fff; stroke-width: 2.5; }
-.route-map .pin-warehouse circle:not(.halo) { fill: #8fa0d8; stroke: #fff; stroke-width: 2.5; }
-.route-map .halo { fill: none !important; stroke: rgba(255,255,255,.35); stroke-width: 1.5; transform-origin: center; transform-box: fill-box; }
-.route-map.play .halo { animation: halo 2.4s ease-out infinite; }
-.route-map .cargo { fill: #fff; filter: drop-shadow(0 0 6px rgba(231,128,124,.9)); }
-.route-map .map-label text { fill: #fff; font: 600 17px/1 var(--font-mono); letter-spacing: .08em; paint-order: stroke; stroke: var(--navy-deep); stroke-width: 8px; stroke-linejoin: round; }
-.route-map .map-label .sub { fill: var(--on-dark-2); font-size: 13px; }
-.route-map figcaption { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 16px; font: 500 .8rem/1.4 var(--font-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--on-dark-2); }
-.route-map .dist { margin-left: auto; color: #fff; }
-.route-map .key { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; vertical-align: -1px; border: 2px solid #fff; }
-.key-factory { background: var(--red); }
-.key-warehouse { background: #8fa0d8; }
-@keyframes halo { from { transform: scale(.5); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+/* Route map: Bursa → USA, Canada, Mexico → Elk Grove Village → across the USA.
+   Stages are cumulative classes s1…s4 set by js/route-map.js. */
+.route-map { margin: 0 0 32px; border: 1px solid var(--rule-strong); padding: clamp(12px, 3vw, 28px); }
+.map-holder { aspect-ratio: 1000 / 447; overflow: hidden; }
+.map-holder svg { width: 100%; height: 100%; display: block; }
+.route-map .cam { transform-origin: 0 0; transform-box: view-box; transition: transform 1.9s cubic-bezier(.6,0,.2,1); }
+.route-map .land { fill: none; stroke-linecap: round; vector-effect: non-scaling-stroke; transition: opacity 1.2s; }
+.route-map .world { stroke: #4a5c9e; stroke-width: 3.6; }
+.route-map .fine { opacity: 0; stroke-width: 3.6; }
+.route-map .fine.usa { stroke: #6f82c8; }
+.route-map .fine.other { stroke: #34447e; }
+/* Routes keep normal (scaling) strokes: pathLength-based dashes break with non-scaling-stroke. */
+.route-map .route { fill: none; stroke: #e7807c; stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.route-map .dist .route { stroke-width: 1.4; }
+.route-map .dist { opacity: 0; }
+.route-map.s4 .dist { opacity: 1; }
+.route-map .pin path { fill: none; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.route-map .pin .ring { stroke: #fff; stroke-width: 17; }
+.route-map .pin .dot { stroke: var(--red); stroke-width: 11; }
+.route-map .dest .dot { stroke: #8fa0d8; }
+.route-map .pin, .route-map .city, .route-map .layer { transition: opacity .6s; }
+.route-map .pin text { fill: #fff; font-family: var(--font-mono); font-weight: 600; letter-spacing: .08em; paint-order: stroke; stroke: var(--navy-deep); stroke-width: 8px; stroke-linejoin: round; }
+.route-map .pin text.sub { fill: var(--on-dark-2); font-weight: 500; }
+.route-map .warehouse text { stroke-width: 0; }
+.route-map .label-bg { fill: var(--navy-deep); fill-opacity: .9; stroke: #56628c; stroke-width: .6; }
+.route-map .city { fill: none; stroke: #fff; stroke-width: 7; stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: 0; }
+.route-map .factory, .route-map .dest, .route-map .warehouse { opacity: 0; }
+
+.route-map.s1 .factory { opacity: 1; }
+.route-map.s2 .export .route { transition: stroke-dashoffset 2.2s cubic-bezier(.45,0,.25,1); stroke-dashoffset: 0; }
+.route-map.s2 .export .r-usa { transition-delay: .2s; }
+.route-map.s2 .export .r-mexico { transition-delay: .4s; }
+.route-map.s2 .dest { opacity: 1; transition-delay: 2.1s; }
+.route-map.s3 .world { opacity: 0; }
+.route-map.s3 .fine { opacity: 1; }
+.route-map.s3 .export { opacity: 0; }
+.route-map.s3 .warehouse { opacity: 1; transition-delay: 1.5s; }
+.route-map.s4 .dist .route { transition: stroke-dashoffset 1.4s cubic-bezier(.45,0,.25,1) calc(var(--i) * 70ms); stroke-dashoffset: 0; }
+.route-map.s4 .city { opacity: 1; transition-delay: calc(1.1s + var(--i) * 70ms); }
+.route-map.instant *, .route-map.instant { transition: none !important; }
+
+.route-map figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 16px; }
+.map-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; flex: 1 1 560px; }
+.map-steps button {
+  width: 100%; min-height: 56px; text-align: left; cursor: pointer; padding: 10px 12px;
+  background: transparent; color: var(--on-dark-2); border: 0; border-top: 2px solid #34447e;
+  font: 500 .92rem/1.3 var(--font-body); transition: color .2s, border-color .2s;
+}
+.map-steps button span { display: block; font: 500 .72rem/1 var(--font-mono); letter-spacing: .1em; color: #8fa0d8; margin-bottom: 6px; }
+.map-steps button:hover { color: #fff; }
+.map-steps button[aria-current="step"] { color: #fff; border-top-color: #e7807c; }
+.map-steps button[aria-current="step"] span { color: #e7807c; }
+.map-replay {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; cursor: pointer;
+  background: transparent; color: #fff; border: 1px solid #56628c; border-radius: var(--radius);
+  font: 600 .95rem/1 var(--font-display); text-transform: uppercase; letter-spacing: .06em;
+}
+.map-replay svg { width: 16px; height: 16px; }
+.map-replay:hover { border-color: #fff; }
+@media (max-width: 800px) { .map-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px) {
-  .route-map .map-label { display: none; }
-  .route-map .dist { margin-left: 0; }
+  .route-map .pin text, .route-map .label-bg { display: none; }
+  .route-map .land { stroke-width: 1.7; }
+  .route-map .pin .ring { stroke-width: 10; }
+  .route-map .pin .dot { stroke-width: 6; }
+  .route-map .city { stroke-width: 4; }
 }
 
 /* Fact sheet: spec-table style list of claims */
