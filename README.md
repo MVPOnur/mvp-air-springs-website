@@ -54,13 +54,15 @@ python3 -m http.server 8000
 
 Then open http://localhost:8000.
 
-## 3D model on the home page
+## 3D models
 
-The hero shows MVP 23-8468 in 3D, built by `js/viewer3d.js`:
-- The body shape is taken from a side photo.
-- The top and bottom are the real product photos (`assets/3d/23-8468-top.webp`, `-bottom.webp`).
-- Visitors can drag it or use the Side / Top / Bottom buttons.
-- If the browser has no 3D support, the top photo is shown instead.
+The home page hero shows the 3D air springs with a model switch, and a part that has a model gets a **3D view** tab on its product page. Two parts have models today: 23-8050 and 23-8468.
+
+Each model is defined in `js/models3d.js` and drawn by `js/viewer3d.js`:
+- **Body shape:** traced from a straight side photo. For 23-8050 it is also sized to the catalog drawing.
+- **Textures:** in `assets/3d/<part>-top|bottom|side.webp`. These are the real top and bottom photos, plus the front and back side photos unwrapped around the body.
+- **Turning on the product page tab:** list the part in `models3d` in `js/config.js`.
+- **No 3D support in the browser:** the top photo is shown instead.
 
 three.js is stored in `js/vendor/three/`, so the site does not depend on a CDN.
 

@@ -28,7 +28,40 @@
     return rows.join("");
   }
 
+  /** Drawing / 3D view tabs; the 3D viewer loads on first open. */
+  function setupTabs(host, p) {
+    const tabs = [...host.querySelectorAll('[role="tab"]')];
+    const panel3d = host.querySelector("#panel-3d");
+    let loaded = false;
+    function select(tab) {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+      });
+      // Symbol legend and units note belong to the drawing.
+      host.querySelectorAll(".legend, .units-note").forEach((el) => (el.hidden = tab.id === "tab-3d"));
+      if (tab.id === "tab-3d" && !loaded) {
+        loaded = true;
+        import("./viewer3d.js")
+          .then((m) => m.mountViewer(panel3d, p.mvp))
+          .catch((err) => { console.error(err); panel3d.innerHTML = '<p class="notice">The 3D view could not be loaded on this device.</p>'; });
+      }
+    }
+    tabs.forEach((t) => {
+      t.addEventListener("click", () => select(t));
+      t.addEventListener("keydown", (e) => {
+        if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+        const next = tabs[(tabs.indexOf(t) + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length];
+        next.focus();
+        select(next);
+      });
+    });
+  }
+
   function render(host, p) {
+    const has3d = (window.MVP_CONFIG.models3d || []).includes(p.mvp);
     const title = `MVP ${p.mvp}`;
     const fs = p.interchange.find((x) => x.brand === "Firestone");
     document.title = `${title}${fs ? " (Firestone " + fs.number + ")" : ""} Air Spring — MVP Air Springs`;
@@ -40,7 +73,22 @@
     host.innerHTML = `
       <article class="product">
         <div class="product-drawing">
-          <figure class="sheet" style="margin:0">
+          ${has3d ? `<div class="view-tabs" role="tablist" aria-label="Product view">
+            <button type="button" role="tab" id="tab-drawing" aria-controls="panel-drawing" aria-selected="true">Drawing</button>
+            <button type="button" role="tab" id="tab-3d" aria-controls="panel-3d" aria-selected="false" tabindex="-1">3D view</button>
+          </div>
+          <div class="viewer3d product-3d on-dark" id="panel-3d" role="tabpanel" aria-labelledby="tab-3d" hidden data-part="${esc(p.mvp)}">
+            <div class="v3d-stage"><canvas aria-label="3D model of MVP air spring ${esc(p.mvp)}. Drag to rotate, or use the Side, Top and Bottom buttons."></canvas></div>
+            <figcaption>
+              <span class="v3d-views" role="group" aria-label="Camera view">
+                <button type="button" data-view="side" aria-pressed="true">Side</button>
+                <button type="button" data-view="top" aria-pressed="false">Top</button>
+                <button type="button" data-view="bottom" aria-pressed="false">Bottom</button>
+              </span>
+              <span class="v3d-hint">Drag to rotate · built from photos of the part</span>
+            </figcaption>
+          </div>` : ""}
+          <figure class="sheet" style="margin:0" id="panel-drawing" ${has3d ? 'role="tabpanel" aria-labelledby="tab-drawing"' : ""}>
             <div class="canvas" data-canvas></div>
             <figcaption class="titleblock">
               <div><span class="lbl">Title</span><span class="val">${esc(p.style ? p.style + " air spring" : "Air spring")}</span></div>
@@ -100,6 +148,7 @@
       if (img && link) { link.href = img.src; link.hidden = false; }
     }).observe(canvas, { childList: true });
     host.querySelector("[data-print]").addEventListener("click", () => window.print());
+    if (has3d) setupTabs(host, p);
   }
 
   function notFound(host, part) {

@@ -1,33 +1,18 @@
-// 3D air spring in the home page hero (MVP 23-8468).
-// The body is a lathe built from the silhouette of a side photo; the top and
-// bottom faces use the real product photos. Units: body radius = 1.
+// 3D air spring viewer (three.js). Used in the home page hero and on product
+// pages that have a model in js/models3d.js.
 import * as THREE from "three";
 import { OrbitControls } from "./vendor/three/OrbitControls.js";
 import { RoomEnvironment } from "./vendor/three/RoomEnvironment.js";
+import { MODELS } from "./models3d.js";
 
-const PART = "23-8468";
-
-// Side profile [radius, height], top to bottom, measured from photo _NJT2352.
-const RUBBER_PROFILE = [
-  [0.86, -0.09], [0.9, -0.16], [0.95, -0.3], [0.99, -0.45], [1.0, -0.6],
-  [1.0, -2.6], [0.995, -2.7], [0.97, -2.76],
-];
-const PISTON_PROFILE = [
-  [0.97, -2.74], [1.02, -2.8], [1.02, -2.86], [0.97, -2.9], [0.95, -2.92],
-];
-const PLATE_TOP = 0;
-const PLATE_R = 0.91;
-const BOTTOM_Y = -2.92;
-const BOTTOM_R = 0.95;
-// Turn the logo side towards the opening camera; the top label is turned back
-// by the same amount so it reads upright in the Top view.
-const SPIN = Math.PI + Math.atan2(5.3, 6.3) + 0.3;
-
-// Fittings on the top plate, as fractions of the plate radius (from the top photo).
-const TOP_FITTINGS = [
-  { x: 0.17, z: -0.62, r: 0.075, h: 0.14, color: 0x2f7fd0 }, // 1/4" NPT air inlet, blue cap
-  { x: -0.01, z: -0.05, r: 0.06, h: 0.11, color: 0x2f7fd0 }, // stud, blue cap
-];
+const FOV = 30;
+// Camera directions; the side view looks at the logo.
+const DIRS = {
+  side: new THREE.Vector3(5.3, 2.3, 6.3).normalize(),
+  top: new THREE.Vector3(0.001, 1, 0.05).normalize(),
+  bottom: new THREE.Vector3(0.001, -1, 0.05).normalize(),
+};
+const SIDE_AZIMUTH = Math.atan2(DIRS.side.x, DIRS.side.z);
 
 // Profiles are listed top to bottom; LatheGeometry needs them bottom to top
 // so the faces point outwards.
@@ -48,7 +33,69 @@ function latheByHeight(points, segments = 96) {
   return geo;
 }
 
-export function mountViewer(host) {
+function buildSpring(m, tex, mats) {
+  // Turn the logo side towards the side camera; the top face is turned back by
+  // the same amount so its label reads upright in the Top view.
+  const spin = Math.PI + SIDE_AZIMUTH + m.spin;
+  const spring = new THREE.Group();
+  const s = m.plate.r;
+
+  const rubber = new THREE.MeshStandardMaterial({ map: tex(`assets/3d/${m.part}-side.webp`), color: new THREE.Color(1.3, 1.3, 1.3), roughness: 0.6, envMapIntensity: 0.45 });
+  spring.add(new THREE.Mesh(latheByHeight(m.rubber), rubber));
+  spring.add(new THREE.Mesh(lathe(m.piston), m.pistonMaterial === "metal" ? mats.alu : mats.plastic));
+  spring.add(new THREE.Mesh(lathe(m.plate.rim), mats.steel));
+
+  const topFace = new THREE.Group();
+  topFace.rotation.y = -spin;
+  const top = new THREE.Mesh(
+    new THREE.CircleGeometry(m.plate.faceR, 96),
+    new THREE.MeshStandardMaterial({ map: tex(`assets/3d/${m.part}-top.webp`), roughness: 0.7, metalness: 0.1, envMapIntensity: 0.45 }),
+  );
+  top.rotation.x = -Math.PI / 2;
+  top.position.y = m.plate.rim[0][1] + 0.001 * s;
+  topFace.add(top);
+  for (const f of m.topFittings) {
+    const y0 = top.position.y;
+    const post = new THREE.Mesh(
+      new THREE.CylinderGeometry(f.r, f.r, f.h, 32),
+      new THREE.MeshStandardMaterial({ color: f.color, roughness: 0.4, metalness: f.cap ? 0.8 : 0 }),
+    );
+    post.position.set(f.x * m.plate.r, y0 + f.h / 2, f.z * m.plate.r);
+    topFace.add(post);
+    if (f.cap) {
+      const cap = new THREE.Mesh(new THREE.CylinderGeometry(f.cap.r, f.cap.r, f.cap.h, 32), new THREE.MeshStandardMaterial({ color: f.cap.color, roughness: 0.4 }));
+      cap.position.set(post.position.x, y0 + f.h - f.cap.h / 2 + 0.05 * f.cap.h, post.position.z);
+      topFace.add(cap);
+    }
+  }
+  spring.add(topFace);
+
+  const bottom = new THREE.Mesh(
+    new THREE.CircleGeometry(m.bottom.r, 96),
+    new THREE.MeshStandardMaterial({ map: tex(`assets/3d/${m.part}-bottom.webp`), roughness: 0.6, metalness: m.pistonMaterial === "metal" ? 0.25 : 0, envMapIntensity: 0.5 }),
+  );
+  bottom.rotation.x = Math.PI / 2;
+  bottom.position.y = m.bottom.y - 0.001 * s;
+  spring.add(bottom);
+  if (m.bottomStud) {
+    const stud = new THREE.Mesh(new THREE.CylinderGeometry(m.bottomStud.r, m.bottomStud.r, m.bottomStud.h, 24), mats.steel);
+    stud.position.y = m.bottom.y - m.bottomStud.h / 2;
+    spring.add(stud);
+  }
+
+  spring.rotation.y = spin;
+  // Centre on the origin and scale every model to the same bounding size.
+  spring.updateMatrixWorld(true);
+  const box = new THREE.Box3().setFromObject(spring);
+  const radius = box.getBoundingSphere(new THREE.Sphere()).radius;
+  spring.position.sub(box.getCenter(new THREE.Vector3()));
+  const holder = new THREE.Group();
+  holder.add(spring);
+  holder.scale.setScalar(1.6 / radius);
+  return holder;
+}
+
+export function mountViewer(host, part) {
   const canvas = host.querySelector("canvas");
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -59,7 +106,6 @@ export function mountViewer(host) {
   const scene = new THREE.Scene();
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
-
   const key = new THREE.DirectionalLight(0xffffff, 1.6);
   key.position.set(3, 5, 4);
   scene.add(key);
@@ -74,62 +120,17 @@ export function mountViewer(host) {
     t.anisotropy = renderer.capabilities.getMaxAnisotropy();
     return t;
   };
-
-  // Rubber wears the unwrapped side photos: MVP logo, "23-8468", "AIR SPRINGS".
-  const rubber = new THREE.MeshStandardMaterial({ map: tex(`assets/3d/${PART}-side.webp`), color: new THREE.Color(1.3, 1.3, 1.3), roughness: 0.6, metalness: 0, envMapIntensity: 0.45 });
-  const plastic = new THREE.MeshStandardMaterial({ color: 0x151517, roughness: 0.5, metalness: 0, envMapIntensity: 0.6 });
-  const steel = new THREE.MeshStandardMaterial({ color: 0xc9ccd2, roughness: 0.38, metalness: 0.85 });
-
-  const spring = new THREE.Group();
-
-  spring.add(new THREE.Mesh(latheByHeight(RUBBER_PROFILE), rubber));
-  spring.add(new THREE.Mesh(lathe(PISTON_PROFILE), plastic));
-
-  // Top bead plate: crimped steel rim plus the photographed top face.
-  spring.add(new THREE.Mesh(lathe([[PLATE_R - 0.04, PLATE_TOP + 0.005], [PLATE_R, PLATE_TOP - 0.01], [PLATE_R + 0.01, -0.06], [0.86, -0.1]]), steel));
-  const top = new THREE.Mesh(
-    new THREE.CircleGeometry(PLATE_R - 0.03, 96),
-    new THREE.MeshStandardMaterial({ map: tex(`assets/3d/${PART}-top.webp`), roughness: 0.7, metalness: 0.1, envMapIntensity: 0.45 }),
-  );
-  top.rotation.x = -Math.PI / 2;
-  top.position.y = PLATE_TOP + 0.006;
-  const topFace = new THREE.Group();
-  topFace.rotation.y = -SPIN;
-  topFace.add(top);
-  spring.add(topFace);
-
-  for (const f of TOP_FITTINGS) {
-    const cap = new THREE.Mesh(
-      new THREE.CylinderGeometry(f.r, f.r, f.h, 32),
-      new THREE.MeshStandardMaterial({ color: f.color, roughness: 0.4 }),
-    );
-    cap.position.set(f.x * PLATE_R, PLATE_TOP + f.h / 2, f.z * PLATE_R);
-    topFace.add(cap);
-  }
-
-  // Bottom: photographed piston face plus the centre stud.
-  const bottom = new THREE.Mesh(
-    new THREE.CircleGeometry(BOTTOM_R, 96),
-    new THREE.MeshStandardMaterial({ map: tex(`assets/3d/${PART}-bottom.webp`), roughness: 0.55 }),
-  );
-  bottom.rotation.x = Math.PI / 2;
-  bottom.position.y = BOTTOM_Y - 0.001;
-  spring.add(bottom);
-  const stud = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.32, 24), steel);
-  stud.position.y = BOTTOM_Y - 0.16;
-  spring.add(stud);
-
-  spring.position.y = 1.5; // centre the spring on the origin
-  spring.rotation.y = SPIN;
-  scene.add(spring);
-
-  const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
-  const VIEWS = {
-    side: new THREE.Vector3(5.3, 2.3, 6.3),
-    top: new THREE.Vector3(0.01, 7.4, 0.35),
-    bottom: new THREE.Vector3(0.01, -7.4, 0.35),
+  const mats = {
+    plastic: new THREE.MeshStandardMaterial({ color: 0x151517, roughness: 0.5, envMapIntensity: 0.6 }),
+    alu: new THREE.MeshStandardMaterial({ color: 0x8f949b, roughness: 0.5, metalness: 0.6, envMapIntensity: 0.6 }),
+    steel: new THREE.MeshStandardMaterial({ color: 0xa9adb3, roughness: 0.4, metalness: 0.8, envMapIntensity: 0.7 }),
   };
-  camera.position.copy(VIEWS.side);
+
+  // Every model is scaled to a bounding radius of 1.6, so one distance fits all.
+  const DIST = (1.6 / Math.sin(THREE.MathUtils.degToRad(FOV / 2))) * 0.8; // the bounding sphere is generous
+  const views = Object.fromEntries(Object.entries(DIRS).map(([k, d]) => [k, d.clone().multiplyScalar(DIST)]));
+  const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 100);
+  camera.position.copy(views.side);
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const controls = new OrbitControls(camera, canvas);
@@ -141,17 +142,30 @@ export function mountViewer(host) {
   controls.minPolarAngle = 0.02;
   controls.maxPolarAngle = Math.PI - 0.02;
 
-  // Turn auto-rotation off for good once the visitor takes over.
-  controls.addEventListener("start", () => { controls.autoRotate = false; flyTo = null; });
-
   let flyTo = null;
+  // Auto-rotation stops for good once the visitor takes over.
+  controls.addEventListener("start", () => { controls.autoRotate = false; flyTo = null; });
+  controls.addEventListener("change", () => { if (reduce) render(); });
+
+  let current = null;
+  function setModel(id) {
+    if (!MODELS[id]) return;
+    if (current) scene.remove(current);
+    current = buildSpring(MODELS[id], tex, mats);
+    scene.add(current);
+    host.querySelectorAll("[data-model]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.model === id)));
+    host.querySelectorAll("[data-model-label]").forEach((el) => (el.textContent = id));
+    render();
+  }
+
   function setView(name) {
     controls.autoRotate = false;
-    flyTo = { from: camera.position.clone(), to: VIEWS[name].clone(), t: reduce ? 1 : 0 };
+    flyTo = { from: camera.position.clone(), to: views[name].clone(), t: reduce ? 1 : 0 };
     host.querySelectorAll("[data-view]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.view === name)));
     loop();
   }
   host.querySelectorAll("[data-view]").forEach((b) => b.addEventListener("click", () => setView(b.dataset.view)));
+  host.querySelectorAll("[data-model]").forEach((b) => b.addEventListener("click", () => setModel(b.dataset.model)));
 
   function resize() {
     const { width, height } = canvas.getBoundingClientRect();
@@ -190,16 +204,17 @@ export function mountViewer(host) {
     }
     controls.update();
     render();
-    if (!controls.autoRotate && !flyTo && reduce) cancelAnimationFrame(raf);
+    if (reduce && !flyTo) cancelAnimationFrame(raf);
   }
-  controls.addEventListener("change", () => { if (reduce) render(); });
 
   new IntersectionObserver(([e]) => {
     visible = e.isIntersecting;
     if (visible) loop(); else cancelAnimationFrame(raf);
   }).observe(host);
 
+  setModel(part);
   resize();
   loop();
   host.classList.add("ready");
+  return { setModel, setView };
 }

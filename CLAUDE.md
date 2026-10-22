@@ -19,10 +19,11 @@ Static marketing site for MVP Air Springs (heavy-duty truck and trailer air spri
 - **MVP numbers:** `23-` + the last 4 digits of the Firestone number.
 - **Supply-line map:** `assets/route-map.svg` is generated from Natural Earth data. It is animated by `js/route-map.js`.
 - **Contacts, facts, form endpoint:** `js/config.js`.
-- **3D air spring in the hero:**
-  - `js/viewer3d.js` builds it with three.js, vendored in `js/vendor/three/` (MIT) and loaded through an import map.
-  - The body shape is traced from a side photo of 23-8468.
-  - The top and bottom faces are the real photos in `assets/3d/`.
+- **3D air springs:**
+  - Models are defined in `js/models3d.js`. Each model's profile is traced from a side photo; 23-8050 is also sized to its catalog drawing.
+  - `js/viewer3d.js` draws them with three.js, vendored in `js/vendor/three/` (MIT) and loaded through an import map on `index.html` and `product.html`.
+  - Textures are in `assets/3d/`.
+  - Product page tabs appear for parts listed in `models3d` in `js/config.js`.
 
 ## Checks before pushing
 1. Serve the site with `python3 -m http.server`.

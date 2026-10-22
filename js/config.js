@@ -20,6 +20,10 @@ window.MVP_CONFIG = {
   drawingsDir: "assets/drawings/",
   drawingExtensions: ["webp", "png", "svg", "jpg"],
 
+  // Parts that have a 3D model (js/models3d.js + assets/3d/). Their product
+  // page gets a "3D view" tab next to the drawing.
+  models3d: ["23-8050", "23-8468"],
+
   // Facts to confirm before launch. Shown as placeholders until filled in.
   facts: {
     founded: "2015",
