@@ -19,6 +19,9 @@ const PLATE_TOP = 0;
 const PLATE_R = 0.91;
 const BOTTOM_Y = -2.92;
 const BOTTOM_R = 0.95;
+// Turn the logo side towards the opening camera; the top label is turned back
+// by the same amount so it reads upright in the Top view.
+const SPIN = Math.PI + Math.atan2(5.3, 6.3) + 0.3;
 
 // Fittings on the top plate, as fractions of the plate radius (from the top photo).
 const TOP_FITTINGS = [
@@ -26,31 +29,23 @@ const TOP_FITTINGS = [
   { x: -0.01, z: -0.05, r: 0.06, h: 0.11, color: 0x2f7fd0 }, // stud, blue cap
 ];
 
+// Profiles are listed top to bottom; LatheGeometry needs them bottom to top
+// so the faces point outwards.
 function lathe(points, segments = 96) {
-  const pts = points.map(([r, y]) => new THREE.Vector2(r, y));
+  const pts = points.map(([r, y]) => new THREE.Vector2(r, y)).reverse();
   const geo = new THREE.LatheGeometry(pts, segments);
   geo.computeVertexNormals();
   return geo;
 }
 
-/** Faint embossed "23-8468 AIR SPRINGS" lettering on the rubber, as a bump map. */
-function sideBump() {
-  const c = document.createElement("canvas");
-  c.width = 2048;
-  c.height = 256;
-  const g = c.getContext("2d");
-  g.fillStyle = "#808080";
-  g.fillRect(0, 0, c.width, c.height);
-  g.fillStyle = "#a8a8a8";
-  g.font = "600 64px Arial, sans-serif";
-  g.textAlign = "center";
-  for (const x of [512, 1536]) {
-    g.fillText(PART, x, 92);
-    g.fillText("AIR SPRINGS", x, 170);
-  }
-  const t = new THREE.CanvasTexture(c);
-  t.wrapS = THREE.RepeatWrapping;
-  return t;
+/** Lathe whose texture v runs by height (top = 1), so a photo strip maps without stretching. */
+function latheByHeight(points, segments = 96) {
+  const geo = lathe(points, segments);
+  const ys = points.map((p) => p[1]);
+  const top = Math.max(...ys), bottom = Math.min(...ys);
+  const pos = geo.attributes.position, uv = geo.attributes.uv;
+  for (let i = 0; i < uv.count; i++) uv.setY(i, (pos.getY(i) - bottom) / (top - bottom));
+  return geo;
 }
 
 export function mountViewer(host) {
@@ -80,14 +75,14 @@ export function mountViewer(host) {
     return t;
   };
 
-  const rubberBump = sideBump();
-  const rubber = new THREE.MeshStandardMaterial({ color: 0x1c1c1f, roughness: 0.62, metalness: 0, bumpMap: rubberBump, bumpScale: 0.6, envMapIntensity: 0.7 });
+  // Rubber wears the unwrapped side photos: MVP logo, "23-8468", "AIR SPRINGS".
+  const rubber = new THREE.MeshStandardMaterial({ map: tex(`assets/3d/${PART}-side.webp`), color: new THREE.Color(1.3, 1.3, 1.3), roughness: 0.6, metalness: 0, envMapIntensity: 0.45 });
   const plastic = new THREE.MeshStandardMaterial({ color: 0x151517, roughness: 0.5, metalness: 0, envMapIntensity: 0.6 });
   const steel = new THREE.MeshStandardMaterial({ color: 0xc9ccd2, roughness: 0.38, metalness: 0.85 });
 
   const spring = new THREE.Group();
 
-  spring.add(new THREE.Mesh(lathe(RUBBER_PROFILE), rubber));
+  spring.add(new THREE.Mesh(latheByHeight(RUBBER_PROFILE), rubber));
   spring.add(new THREE.Mesh(lathe(PISTON_PROFILE), plastic));
 
   // Top bead plate: crimped steel rim plus the photographed top face.
@@ -98,7 +93,10 @@ export function mountViewer(host) {
   );
   top.rotation.x = -Math.PI / 2;
   top.position.y = PLATE_TOP + 0.006;
-  spring.add(top);
+  const topFace = new THREE.Group();
+  topFace.rotation.y = -SPIN;
+  topFace.add(top);
+  spring.add(topFace);
 
   for (const f of TOP_FITTINGS) {
     const cap = new THREE.Mesh(
@@ -106,7 +104,7 @@ export function mountViewer(host) {
       new THREE.MeshStandardMaterial({ color: f.color, roughness: 0.4 }),
     );
     cap.position.set(f.x * PLATE_R, PLATE_TOP + f.h / 2, f.z * PLATE_R);
-    spring.add(cap);
+    topFace.add(cap);
   }
 
   // Bottom: photographed piston face plus the centre stud.
@@ -122,6 +120,7 @@ export function mountViewer(host) {
   spring.add(stud);
 
   spring.position.y = 1.5; // centre the spring on the origin
+  spring.rotation.y = SPIN;
   scene.add(spring);
 
   const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
