@@ -66,10 +66,19 @@
       ${lines ? `<div class="xrefs">${lines}</div>` : ""}
       <div class="titleblock">
         <div><span class="lbl">MVP part no.</span><span class="val part-no">${escapeHtml(p.mvp)}</span></div>
-        <div><span class="lbl">Use</span><span class="val">${escapeHtml(p.application || "—")}</span></div>
+        <div><span class="lbl">OEM</span><span class="val">${escapeHtml(p.oem || p.application || "—")}</span></div>
       </div>
     </a></li>`;
   }
+
+  // Catalog drawings load only when their card scrolls near the screen.
+  const lazyDrawings = "IntersectionObserver" in window
+    ? new IntersectionObserver((entries, obs) => {
+        for (const e of entries) {
+          if (e.isIntersecting) { obs.unobserve(e.target); e.target._mount(); }
+        }
+      }, { rootMargin: "400px 0px" })
+    : { observe: (el) => el._mount() };
 
   function renderCatalog(list, products) {
     list.innerHTML = products.map(cardHtml).join("");
@@ -78,7 +87,8 @@
       const holder = document.createElement("div");
       holder.style.cssText = "width:100%;height:100%;display:grid;place-items:center";
       thumb.appendChild(holder);
-      mountDrawing(holder, p, `Technical drawing of MVP ${p.mvp}`);
+      holder._mount = () => mountDrawing(holder, p, `Technical drawing of MVP ${p.mvp}`);
+      lazyDrawings.observe(holder);
     });
   }
 

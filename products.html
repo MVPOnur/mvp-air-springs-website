@@ -43,7 +43,7 @@
     <div class="wrap">
       <p class="eyebrow">Catalog</p>
       <h1 id="page-title">Air spring catalog</h1>
-      <p>Every MVP part with its technical drawing and interchange numbers. Search by any brand’s number, or filter by application.</p>
+      <p>Every MVP part with its technical drawing and interchange numbers. Search by any brand’s number, or filter by OEM application.</p>
     </div>
   </section>
 
@@ -51,7 +51,7 @@
     <div class="wrap">
       <form class="xref" role="search" data-xref style="max-width:none;margin-bottom:40px">
         <label for="xref-q">Cross-reference a part number</label>
-        <p class="hint" id="xref-hint">Firestone, Goodyear, ContiTech, OE or MVP number. Dashes and spaces don’t matter.</p>
+        <p class="hint" id="xref-hint">Firestone, Goodyear, ContiTech, OE or MVP number, or an OEM name like Hendrickson. Dashes and spaces don’t matter.</p>
         <div class="xref-row">
           <input id="xref-q" name="q" type="search" inputmode="search" autocomplete="off" spellcheck="false" placeholder="e.g. W01-358-9781" aria-describedby="xref-hint xref-status">
           <button class="btn btn-red" type="submit">
@@ -64,7 +64,7 @@
       </form>
 
       <h2 class="visually-hidden">All parts</h2>
-      <div class="filters" role="group" aria-label="Filter by application" data-filters></div>
+      <div class="filters" role="group" aria-label="Filter by OEM application" data-filters></div>
       <p class="count" data-count aria-live="polite"></p>
       <ul class="catalog" data-catalog aria-label="All parts"></ul>
     </div>

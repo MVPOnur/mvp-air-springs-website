@@ -7,7 +7,7 @@ A static website for US truck-parts distributors. It is plain HTML, CSS and Java
 | Page | What it does |
 |---|---|
 | `index.html` | Home page. Core message, cross-reference search, supply line (Bursa → Elk Grove Village → distributor), facts, featured parts |
-| `products.html` | Full catalog with search and Truck/Trailer filter. `?q=W01-358-9781` pre-fills the search |
+| `products.html` | Full catalog with search and an OEM filter (Hendrickson, Neway, …). `?q=W01-358-9781` pre-fills the search |
 | `product.html?part=23-9781` | One page per product: technical drawing, interchange numbers, dimensions, print-friendly spec sheet |
 | `distributors.html` | "Become a distributor" application form |
 
@@ -18,17 +18,20 @@ Edit **`data/mvp-air-springs-products.csv`**. This is the only product file. Eac
 | Column | Notes |
 |---|---|
 | `mvp_part` | Optional. If you leave it empty, the site builds it as `23-` + the last 4 digits of the Firestone number. If you fill it in and it does not match that rule, the browser console shows a warning. |
-| `firestone`, `goodyear`, `contitech`, `oe_numbers` | Cross-reference numbers. To put several numbers in one cell, separate them with `\|` (for example `1R12-123\|1R12-456`). |
-| `application` | For example `Truck` or `Trailer`. The catalog filter buttons come from this column. |
+| `firestone`, `goodyear`, `contitech`, `oe_numbers` | Cross-reference numbers. To put several numbers in one cell, separate them with `\|` (for example `1R12-123\|1R12-456`). A note in brackets after a number, such as `1R12-095 (Plastic)`, is shown next to it but ignored by the search. |
+| `oem` | OEM application from the catalog, for example `Hendrickson`. The catalog filter buttons come from this column, and searching the name lists its parts. |
+| `application` | Optional, for example `Truck` or `Trailer`. |
 | `style`, `description` | Short text |
-| `compressed_height_in`, `extended_height_in`, `design_height_in`, `max_diameter_in` | Numbers in inches. The site also shows the value in mm. An empty cell shows "To be added". |
+| `compressed_height_in`, `extended_height_in`, `design_height_in`, `max_diameter_in` | Numbers in inches. The site also shows the value in mm. Empty columns are simply not shown. |
 | `upper_mount`, `lower_mount`, `air_inlet` | Short text |
 | `drawing` | Optional. A file name in `assets/drawings/`, used only when the drawing is not named after the part number. |
-| `sample` | `yes` marks a placeholder row. Delete the three sample rows once you add real data. |
+| `sample` | `yes` marks a placeholder row. |
+
+The 86 products and drawings were taken from the MVP Air Springs catalog PDF. Each drawing is the side, top and bottom view from that catalog page.
 
 ## Drawings
 
-Put drawings in `assets/drawings/` and name each one after the MVP part number, for example `23-9781.png`. The site tries `.png`, `.svg`, `.webp` and `.jpg` in that order. If no file is found, the page shows a "Drawing to be added" frame.
+Put drawings in `assets/drawings/` and name each one after the MVP part number, for example `23-9781.webp`. The site tries `.webp`, `.png`, `.svg` and `.jpg` in that order. If no file is found, the page shows a "Drawing to be added" frame.
 
 ## Placeholders to fill in
 

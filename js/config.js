@@ -5,9 +5,9 @@ window.MVP_CONFIG = {
   companyName: "MVP Air Springs",
 
   // Contact details
-  email: "[distributor email]",
-  phone: "[US phone number]",
-  warehouseAddress: "[Street address], Elk Grove Village, IL [ZIP]",
+  email: "sales@mvptruckparts.com",
+  phone: "(224) 423-8860",
+  warehouseAddress: "1001 Nicholas Blvd, Elk Grove Village, IL 60007",
   factoryAddress: "[Street address], Bursa, Türkiye",
 
   // Where the "Become a distributor" form is sent.
@@ -18,11 +18,11 @@ window.MVP_CONFIG = {
   // Product data and drawings, relative to the site root.
   productsCsv: "data/mvp-air-springs-products.csv",
   drawingsDir: "assets/drawings/",
-  drawingExtensions: ["png", "svg", "webp", "jpg"],
+  drawingExtensions: ["webp", "png", "svg", "jpg"],
 
   // Facts to confirm before launch. Shown as placeholders until filled in.
   facts: {
-    founded: "[Year founded]",
+    founded: "2015",
     certifications: "[Certifications, e.g. ISO 9001 — confirm]",
     warranty: "[Warranty terms]",
     leadTime: "[Typical ship time from Elk Grove Village]",

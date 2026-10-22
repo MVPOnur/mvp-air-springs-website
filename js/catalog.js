@@ -1,4 +1,4 @@
-// Catalog page: all parts, filterable by application (Truck, Trailer, …).
+// Catalog page: all parts, filterable by OEM application (Hendrickson, Neway, …).
 (function () {
   "use strict";
   const D = window.MVP_DATA;
@@ -10,11 +10,11 @@
     const count = document.querySelector("[data-count]");
 
     D.loadProducts().then((products) => {
-      const apps = [...new Set(products.map((p) => p.application).filter(Boolean))].sort();
+      const apps = [...new Set(products.map((p) => p.oem).filter(Boolean))].sort();
       let active = "All";
 
       function render() {
-        const shown = active === "All" ? products : products.filter((p) => p.application === active);
+        const shown = active === "All" ? products : products.filter((p) => p.oem === active);
         count.textContent = `${shown.length} part${shown.length === 1 ? "" : "s"}`;
         if (shown.length) UI.renderCatalog(list, shown);
         else list.innerHTML = '<li class="empty">No parts listed yet.</li>';

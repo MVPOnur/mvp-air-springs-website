@@ -7,7 +7,7 @@
   const TBC = '<span class="tbc">To be added</span>';
 
   function dimensionRows(p) {
-    return p.dimensions.map((d) => {
+    return p.dimensions.filter((d) => isFinite(d.inches)).map((d) => {
       const f = D.formatInches(d.inches);
       return `<tr><th scope="row">${esc(d.label)}</th>${f
         ? `<td>${f.inches}<span class="alt">${f.mm}</span></td>`
@@ -16,13 +16,15 @@
   }
 
   function detailRows(p) {
-    return p.details.map((d) => `<tr><th scope="row">${esc(d.label)}</th>${d.value
+    return p.details.filter((d) => d.value).map((d) => `<tr><th scope="row">${esc(d.label)}</th>${d.value
       ? `<td>${esc(d.value)}</td>` : `<td class="missing">${TBC}</td>`}</tr>`).join("");
   }
 
   function interchangeRows(p) {
     const rows = [`<tr><th scope="row">MVP</th><td><strong>${esc(p.mvp)}</strong></td></tr>`];
-    for (const x of p.interchange) rows.push(`<tr><th scope="row">${esc(x.brand)}</th><td>${esc(x.number)}</td></tr>`);
+    for (const x of p.interchange) {
+      rows.push(`<tr><th scope="row">${esc(x.brand)}</th><td>${esc(x.number)}${x.note ? `<span class="alt">${esc(x.note)}</span>` : ""}</td></tr>`);
+    }
     return rows.join("");
   }
 
@@ -46,6 +48,13 @@
               <div><span class="lbl">Units</span><span class="val">in / mm</span></div>
             </figcaption>
           </figure>
+          <ul class="legend" aria-label="Drawing symbols">
+            <li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M10 2a8 8 0 0 1 8 8h-8zM10 18a8 8 0 0 1-8-8h8z" fill="currentColor"/></svg>Threaded hole</li>
+            <li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m4.5 4.5 11 11m0-11-11 11"/></svg>Air inlet</li>
+            <li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M2 10h16"/></svg>Bolt / stud</li>
+            <li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5"/><circle cx="10" cy="10" r="5.5"/><path d="m6 6 8 8m0-8-8 8"/></svg>Combo stud</li>
+          </ul>
+          <p class="units-note">Dimensions on the drawing are in inches unless marked mm (11,25 = 11.25 in).</p>
           <div class="actions">
             <a class="btn btn-line" data-open-drawing hidden target="_blank" rel="noopener">Open full-size drawing</a>
             <button class="btn btn-line" type="button" data-print>Print spec sheet</button>
@@ -53,7 +62,7 @@
         </div>
 
         <div class="product-info">
-          <p class="eyebrow">${esc([p.application, "air spring"].filter(Boolean).join(" "))}</p>
+          <p class="eyebrow">${esc(p.oem ? `Air spring · ${p.oem}` : "Air spring")}</p>
           <h1><span class="mono">${esc(p.mvp)}</span></h1>
           ${p.sample ? '<p class="notice"><strong>Sample entry.</strong> This row in the product file is a placeholder — replace it with real product data.</p>' : ""}
           ${p.description && !p.sample ? `<p class="desc">${esc(p.description)}</p>` : ""}
@@ -64,15 +73,15 @@
             <tbody>${interchangeRows(p)}</tbody>
           </table>
 
-          <table class="spec">
+          ${dimensionRows(p) ? `<table class="spec">
             <caption>Dimensions</caption>
             <tbody>${dimensionRows(p)}</tbody>
-          </table>
+          </table>` : ""}
 
-          <table class="spec">
+          ${detailRows(p) ? `<table class="spec">
             <caption>Details</caption>
             <tbody>${detailRows(p)}</tbody>
-          </table>
+          </table>` : ""}
 
           <div class="cta-box">
             <h2>Want to stock ${esc(p.mvp)}?</h2>

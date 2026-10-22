@@ -21,6 +21,7 @@
   ];
 
   const DETAILS = [
+    { column: "oem", label: "OEM application" },
     { column: "application", label: "Application" },
     { column: "style", label: "Style" },
     { column: "upper_mount", label: "Upper mount" },
@@ -70,15 +71,25 @@
     return String(cell || "").split(/[|;]/).map((s) => s.trim()).filter(Boolean);
   }
 
+  /** "1R12-095 (Plastic)" → { number: "1R12-095", note: "Plastic" } */
+  function splitNote(entry) {
+    const m = entry.match(/^(.*?)\s*\(([^)]*)\)$/);
+    return m ? { number: m[1], note: m[2] } : { number: entry, note: "" };
+  }
+
   function toProduct(row) {
-    const derived = mvpFromFirestone(splitNumbers(row.firestone)[0]);
-    const mvp = row.mvp_part || derived;
-    if (row.mvp_part && derived && row.mvp_part !== derived) {
-      console.warn(`MVP number ${row.mvp_part} does not match its Firestone number ${row.firestone} (expected ${derived}).`);
+    const firestone = splitNumbers(row.firestone).map((e) => splitNote(e).number);
+    const derived = firestone.map(mvpFromFirestone);
+    const mvp = row.mvp_part || derived[0] || "";
+    if (row.mvp_part && derived.length && !derived.includes(row.mvp_part)) {
+      console.warn(`MVP number ${row.mvp_part} does not match its Firestone number ${row.firestone}.`);
     }
     const interchange = [];
     for (const b of BRANDS) {
-      for (const number of splitNumbers(row[b.column])) interchange.push({ brand: b.label, number, norm: normalize(number) });
+      for (const entry of splitNumbers(row[b.column])) {
+        const { number, note } = splitNote(entry);
+        interchange.push({ brand: b.label, number, note, norm: normalize(number) });
+      }
     }
     return {
       mvp,
@@ -88,6 +99,8 @@
       dimensions: DIMENSIONS.map((d) => ({ label: d.label, inches: parseFloat(row[d.column]) })),
       details: DETAILS.map((d) => ({ label: d.label, value: row[d.column] || "" })),
       application: row.application || "",
+      oem: row.oem || "",
+      oemNorm: normalize(row.oem),
       style: row.style || "",
       drawing: row.drawing || "",
       sample: /^(yes|true|1)$/i.test(row.sample || ""),
@@ -120,6 +133,7 @@
     const results = [];
     for (const p of products) {
       const candidates = [{ brand: "MVP", number: p.mvp, norm: p.mvpNorm }, ...p.interchange];
+      if (p.oem) candidates.push({ brand: "OEM application", number: p.oem, norm: p.oemNorm });
       let best = null;
       for (const c of candidates) {
         let rank = -1;
