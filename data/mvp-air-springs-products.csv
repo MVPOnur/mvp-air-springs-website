@@ -1,0 +1,4 @@
+mvp_part,firestone,goodyear,contitech,oe_numbers,application,style,description,compressed_height_in,extended_height_in,design_height_in,max_diameter_in,upper_mount,lower_mount,air_inlet,drawing,sample
+23-9781,W01-358-9781,GY-SAMPLE-0001,CT-SAMPLE-0001,OE-SAMPLE-0001,Trailer,Rolling lobe,SAMPLE ROW - replace with real product data,,,,,,,,,yes
+,W01-SMP-0002,GY-SAMPLE-0002,CT-SAMPLE-0002,OE-SAMPLE-0002|OE-SAMPLE-0003,Truck,Rolling lobe,SAMPLE ROW - MVP number left blank to show it is derived from the Firestone number,,,,,,,,,yes
+23-0003,W01-SMP-0003,,,,Truck,Rolling lobe,SAMPLE ROW - only a Firestone cross-reference,,,,,,,,,yes

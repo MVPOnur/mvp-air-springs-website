@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Air Spring — MVP Air Springs</title>
+  <meta name="description" content="MVP heavy-duty air spring: technical drawing, dimensions and interchange numbers.">
+  <meta name="theme-color" content="#13235B">
+  <link rel="icon" href="assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+  <link rel="stylesheet" href="css/site.css">
+  <script src="js/config.js" defer></script>
+  <script src="js/data.js" defer></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/product.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="MVP Air Springs home">
+      <img src="assets/logo-240.webp" width="240" height="111" alt="MVP Truck Parts logo">
+      <span class="brand-name">MVP Air Springs<small>HEAVY-DUTY AIR SPRINGS</small></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="index.html#cross-reference">Cross-reference</a>
+      <a href="products.html">Products</a>
+      <a href="index.html#supply-line">Supply line</a>
+      <a class="btn btn-red" href="distributors.html">Become a distributor</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="products.html">Catalog</a> / <span data-crumb aria-current="page">Part</span></nav>
+    <div data-product><p class="count" style="padding:40px 0">Loading part…</p></div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="index.html" aria-label="MVP Air Springs home"><img src="assets/logo-240.webp" width="240" height="111" alt="MVP Truck Parts logo" loading="lazy"></a>
+        <p class="footer-tag">Manufactured in Türkiye.<br>Stocked in the USA.</p>
+      </div>
+      <div>
+        <h2>US warehouse</h2>
+        <address data-config="warehouseAddress"></address>
+      </div>
+      <div>
+        <h2>Factory</h2>
+        <address data-config="factoryAddress"></address>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <ul>
+          <li><span data-config="email" data-link="mailto"></span></li>
+          <li><span data-config="phone" data-link="tel"></span></li>
+          <li><a href="distributors.html">Become a distributor</a></li>
+          <li><a href="products.html">Product catalog</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="disclaimer">
+      <p>Firestone, Goodyear, ContiTech and other brand names are trademarks of their respective owners. They are used for identification only, and part numbers are given for cross-reference purposes only. MVP Air Springs is not affiliated with these companies.</p>
+      <p>© <span data-year></span> MVP Air Springs</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
