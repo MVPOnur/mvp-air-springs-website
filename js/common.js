@@ -128,6 +128,25 @@
     document.querySelectorAll("[data-fact]").forEach((el) => fill(el, cfg.facts[el.dataset.fact]));
     document.querySelectorAll("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
 
+    // Route map: draw the line when it scrolls into view, then send a dot along it.
+    const map = document.querySelector("[data-route-map]");
+    if (map) {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const start = () => {
+        map.classList.add("play");
+        if (reduce) return;
+        setTimeout(() => {
+          const cargo = map.querySelector(".cargo");
+          cargo.setAttribute("opacity", "1");
+          cargo.querySelector("animateMotion").beginElement();
+        }, 2600);
+      };
+      if (reduce || !("IntersectionObserver" in window)) start();
+      else new IntersectionObserver((entries, obs) => {
+        if (entries.some((e) => e.isIntersecting)) { obs.disconnect(); start(); }
+      }, { threshold: 0.35 }).observe(map);
+    }
+
     const counts = document.querySelectorAll("[data-product-count]");
     const featured = document.querySelector("[data-catalog][data-limit]");
     if (counts.length || featured) {

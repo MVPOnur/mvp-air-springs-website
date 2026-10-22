@@ -207,6 +207,32 @@ p { margin: 0 0 1em; }
   .supply-step:not(:last-child)::after { right: auto; left: 28px; top: auto; bottom: -13px; transform: rotate(90deg); }
 }
 
+/* Route map: Bursa → Elk Grove Village */
+.route-map { margin: 0 0 32px; border: 1px solid var(--rule-strong); padding: clamp(12px, 3vw, 28px); position: relative; }
+.route-map svg { width: 100%; height: auto; overflow: visible; }
+.route-map .land { fill: none; stroke: #4a5c9e; stroke-width: 3.6; stroke-linecap: round; }
+.route-map .route-base { fill: none; stroke: rgba(231,128,124,.35); stroke-width: 2; stroke-dasharray: 2 7; stroke-linecap: round; }
+.route-map .route { fill: none; stroke: #e7807c; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.route-map.play .route { transition: stroke-dashoffset 2.6s cubic-bezier(.45,0,.25,1); stroke-dashoffset: 0; }
+.route-map .pin circle { fill: #fff; }
+.route-map .pin-factory circle:not(.halo) { fill: var(--red); stroke: #fff; stroke-width: 2.5; }
+.route-map .pin-warehouse circle:not(.halo) { fill: #8fa0d8; stroke: #fff; stroke-width: 2.5; }
+.route-map .halo { fill: none !important; stroke: rgba(255,255,255,.35); stroke-width: 1.5; transform-origin: center; transform-box: fill-box; }
+.route-map.play .halo { animation: halo 2.4s ease-out infinite; }
+.route-map .cargo { fill: #fff; filter: drop-shadow(0 0 6px rgba(231,128,124,.9)); }
+.route-map .map-label text { fill: #fff; font: 600 17px/1 var(--font-mono); letter-spacing: .08em; paint-order: stroke; stroke: var(--navy-deep); stroke-width: 8px; stroke-linejoin: round; }
+.route-map .map-label .sub { fill: var(--on-dark-2); font-size: 13px; }
+.route-map figcaption { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 16px; font: 500 .8rem/1.4 var(--font-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--on-dark-2); }
+.route-map .dist { margin-left: auto; color: #fff; }
+.route-map .key { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; vertical-align: -1px; border: 2px solid #fff; }
+.key-factory { background: var(--red); }
+.key-warehouse { background: #8fa0d8; }
+@keyframes halo { from { transform: scale(.5); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+@media (max-width: 640px) {
+  .route-map .map-label { display: none; }
+  .route-map .dist { margin-left: 0; }
+}
+
 /* Fact sheet: spec-table style list of claims */
 .facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 2px solid var(--navy); }
 .fact { padding: 22px 20px 24px 0; border-bottom: 1px solid var(--rule); }

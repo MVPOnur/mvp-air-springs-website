@@ -23,9 +23,9 @@ window.MVP_CONFIG = {
   // Facts to confirm before launch. Shown as placeholders until filled in.
   facts: {
     founded: "2015",
-    certifications: "[Certifications, e.g. ISO 9001 — confirm]",
-    warranty: "[Warranty terms]",
+    warranty: "3 years",
     leadTime: "[Typical ship time from Elk Grove Village]",
-    factoryCapacity: "[Factory capacity]",
+    factoryCapacity: "500,000 / yr",
+    factoryCapacityLong: "500,000 air springs",
   },
 };
