@@ -54,6 +54,16 @@ python3 -m http.server 8000
 
 Then open http://localhost:8000.
 
+## 3D model on the home page
+
+The hero shows MVP 23-8468 in 3D, built by `js/viewer3d.js`:
+- The body shape is taken from a side photo.
+- The top and bottom are the real product photos (`assets/3d/23-8468-top.webp`, `-bottom.webp`).
+- Visitors can drag it or use the Side / Top / Bottom buttons.
+- If the browser has no 3D support, the top photo is shown instead.
+
+three.js is stored in `js/vendor/three/`, so the site does not depend on a CDN.
+
 ## Design notes
 
 - **Style:** "drawing sheet". Paper-gray neutrals and hairline rules. Part numbers are set in IBM Plex Mono. Product cards and drawings sit in technical-drawing title blocks. Dark sections use deep navy with a blueprint grid.

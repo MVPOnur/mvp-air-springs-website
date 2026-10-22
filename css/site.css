@@ -137,11 +137,25 @@ p { margin: 0 0 1em; }
 .hero h1 .line2 { color: #c6cff0; display: block; }
 .hero h1 .mark { color: var(--red); }
 .hero .lede { font-size: 1.2rem; color: var(--on-dark-2); max-width: 36em; margin-bottom: 32px; }
-.hero-art { color: #8fa0d8; }
-.hero-art svg { width: 100%; height: auto; }
+/* 3D air spring in the hero */
+.viewer3d { margin: 0; }
+.v3d-stage { position: relative; aspect-ratio: 4 / 5; max-height: 560px; margin: 0 auto;
+  background: radial-gradient(closest-side, rgba(143,160,216,.28), rgba(143,160,216,.08) 60%, transparent 100%); }
+.v3d-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .6s; cursor: grab; touch-action: pan-y; }
+.v3d-stage canvas:active { cursor: grabbing; }
+.v3d-fallback { position: absolute; inset: 12%; width: 76%; height: auto; border-radius: 50%; transition: opacity .6s; }
+.viewer3d.ready canvas { opacity: 1; }
+.viewer3d.ready .v3d-fallback { opacity: 0; }
+.viewer3d figcaption { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-top: 8px;
+  font: 500 .8rem/1.4 var(--font-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--on-dark-2); }
+.v3d-views { display: inline-flex; border: 1px solid #56628c; border-radius: var(--radius); }
+.v3d-views button { min-height: 44px; min-width: 64px; padding: 0 12px; background: transparent; color: var(--on-dark-2); border: 0; cursor: pointer;
+  font: 600 .9rem/1 var(--font-display); text-transform: uppercase; letter-spacing: .06em; }
+.v3d-views button + button { border-left: 1px solid #56628c; }
+.v3d-views button[aria-pressed="true"] { background: #fff; color: var(--navy); }
 @media (max-width: 900px) {
   .hero .wrap { grid-template-columns: 1fr; }
-  .hero-art { display: none; }
+  .v3d-stage { aspect-ratio: 1 / 1; max-width: 420px; }
 }
 
 /* ---------- Cross-reference search ---------- */

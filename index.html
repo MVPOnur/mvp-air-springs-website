@@ -16,6 +16,8 @@
   <script src="js/common.js" defer></script>
   <script src="js/xref.js" defer></script>
   <script src="js/route-map.js" defer></script>
+  <script type="importmap">{ "imports": { "three": "./js/vendor/three/three.module.min.js" } }</script>
+  <script type="module" src="js/viewer3d-boot.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -62,48 +64,20 @@
         </form>
       </div>
 
-      <div class="hero-art" aria-hidden="true">
-        <svg viewBox="0 0 380 460" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
-          <!-- centerline -->
-          <path d="M180 4v420" stroke-dasharray="14 4 3 4" stroke-width="1" opacity=".6"/>
-          <!-- air inlet + studs -->
-          <path d="M174 18h12v26h-12z"/>
-          <path d="M116 30h10v14h-10zM234 30h10v14h-10z"/>
-          <!-- upper bead plate -->
-          <path d="M66 44h228v12H66z" stroke-width="2"/>
-          <!-- bellows -->
-          <path d="M74 56C34 84 30 200 66 248c10 13 24 18 38 14" stroke-width="2.2"/>
-          <path d="M286 56c40 28 44 144 8 192-10 13-24 18-38 14" stroke-width="2.2"/>
-          <path d="M70 92c-14 30-16 80-6 120" opacity=".45"/>
-          <path d="M290 92c14 30 16 80 6 120" opacity=".45"/>
-          <!-- piston -->
-          <path d="M100 262l8 104h144l8-104" stroke-width="2"/>
-          <path d="M100 262h160" opacity=".5"/>
-          <g opacity=".35" stroke-width="1">
-            <path d="M120 300l20-20M120 330l50-50M126 356l76-76M156 362l76-76M188 362l62-62M220 362l34-34"/>
-          </g>
-          <!-- lower mount -->
-          <path d="M128 366h104v10H128z"/>
-          <path d="M175 376h10v22h-10z"/>
-          <!-- height dimension -->
-          <g stroke-width="1.1">
-            <path d="M298 44h52M262 376h88"/>
-            <path d="M338 50v320"/>
-            <path d="M333 58l5-8 5 8M333 362l5 8 5-8"/>
-          </g>
-          <!-- diameter dimension -->
-          <g stroke-width="1.1">
-            <path d="M40 160v270M320 160v270"/>
-            <path d="M46 418h268"/>
-            <path d="M54 413l-8 5 8 5M306 413l8 5-8 5"/>
-          </g>
-          <g fill="currentColor" stroke="none" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="500">
-            <text x="352" y="214" transform="rotate(90 352 214)" text-anchor="middle">H</text>
-            <text x="180" y="410" text-anchor="middle">Ø D</text>
-            <text x="12" y="452" font-size="11" opacity=".8">MVP AIR SPRINGS · ROLLING LOBE · SCHEMATIC</text>
-          </g>
-        </svg>
-      </div>
+      <figure class="hero-art viewer3d" data-viewer3d>
+        <div class="v3d-stage">
+          <img class="v3d-fallback" src="assets/3d/23-8468-fallback.webp" width="640" height="640" alt="Top plate of MVP air spring 23-8468 with its part label and 3-year warranty sticker">
+          <canvas aria-label="3D model of MVP air spring 23-8468. Drag to rotate, or use the Side, Top and Bottom buttons."></canvas>
+        </div>
+        <figcaption>
+          <span class="v3d-part"><span class="mono">23-8468</span> · drag to rotate</span>
+          <span class="v3d-views" role="group" aria-label="Camera view">
+            <button type="button" data-view="side" aria-pressed="true">Side</button>
+            <button type="button" data-view="top" aria-pressed="false">Top</button>
+            <button type="button" data-view="bottom" aria-pressed="false">Bottom</button>
+          </span>
+        </figcaption>
+      </figure>
     </div>
   </section>
 
