@@ -108,31 +108,101 @@
     return out;
   }
 
-  /** Two-row sideways showcase: arrow buttons page through it, and it swipes on touch. */
-  function setupRail(rail) {
+  /**
+   * Sideways showcase that drifts slowly on its own and loops without a seam
+   * (the list is rendered twice). It stops while the pointer is over it, while
+   * something in it has focus, while it is being touched or scrolled, when the
+   * pause button is pressed, and when it is off screen. Reduced motion: no drift.
+   */
+  function setupRail(rail, count) {
     if (!rail) return;
     const track = rail.querySelector(".catalog-rail");
     const prev = rail.querySelector("[data-rail-prev]");
     const next = rail.querySelector("[data-rail-next]");
-    const update = () => {
+    const toggle = rail.querySelector("[data-rail-toggle]");
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const SPEED = 30; // px per second
+    const looped = !reduce && track.children.length >= count * 2;
+    const holds = new Set();          // reasons the drift is stopped
+    const timers = {};
+    let pos = 0, last = 0, writing = false;
+
+    const setLength = () => (looped ? track.children[count].offsetLeft - track.children[0].offsetLeft : 0);
+    const hold = (why, ms) => {
+      holds.add(why);
+      clearTimeout(timers[why]);
+      if (ms) timers[why] = setTimeout(() => holds.delete(why), ms);
+    };
+    const release = (why, ms = 0) => {
+      clearTimeout(timers[why]);
+      if (ms) timers[why] = setTimeout(() => holds.delete(why), ms); else holds.delete(why);
+    };
+
+    function frame(t) {
+      requestAnimationFrame(frame);
+      const dt = last ? Math.min((t - last) / 1000, 0.1) : 0;
+      last = t;
+      if (!looped || holds.size) return;
+      const len = setLength();
+      pos += SPEED * dt;
+      if (len && pos >= len) pos -= len;
+      writing = true;
+      track.scrollLeft = pos;
+    }
+
+    function updateArrows() {
+      if (looped) return; // a loop has no ends
       const max = track.scrollWidth - track.clientWidth - 2;
       prev.disabled = track.scrollLeft <= 2;
       next.disabled = track.scrollLeft >= max;
-    };
-    // Move by the columns that fit on screen, so each press shows a fresh set.
-    const page = (dir) => {
+    }
+
+    // Move by the cards that fit on screen.
+    function page(dir) {
       const first = track.children[0];
       if (!first) return;
+      hold("nav", 4000);
       const step = first.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
       const cols = Math.max(1, Math.round((track.clientWidth + step - first.getBoundingClientRect().width) / step));
-      const smooth = !matchMedia("(prefers-reduced-motion: reduce)").matches;
-      track.scrollTo({ left: track.scrollLeft + dir * cols * step, behavior: smooth ? "smooth" : "auto" });
-    };
+      let from = track.scrollLeft;
+      const len = setLength();
+      if (looped && dir < 0 && from < cols * step) { from += len; track.scrollLeft = from; }
+      if (looped && dir > 0 && from + cols * step > len * 1.5) { from -= len; track.scrollLeft = from; }
+      track.scrollTo({ left: from + dir * cols * step, behavior: reduce ? "auto" : "smooth" });
+    }
+
+    track.addEventListener("scroll", () => {
+      if (writing) { writing = false; return; }
+      pos = track.scrollLeft; // someone else moved it: arrows, swipe, wheel
+      updateArrows();
+    }, { passive: true });
+    track.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") hold("hover"); });
+    track.addEventListener("pointerleave", () => release("hover"));
+    track.addEventListener("touchstart", () => hold("touch"), { passive: true });
+    track.addEventListener("touchend", () => release("touch", 3000), { passive: true });
+    track.addEventListener("wheel", () => hold("wheel", 2500), { passive: true });
+    // Keyboard users tabbing through the cards get a still row; clicks on the
+    // buttons below must not leave it stopped.
+    track.addEventListener("focusin", (e) => { if (e.target.matches(":focus-visible")) hold("focus"); });
+    track.addEventListener("focusout", () => release("focus"));
     prev.addEventListener("click", () => page(-1));
     next.addEventListener("click", () => page(1));
-    track.addEventListener("scroll", update, { passive: true });
-    new ResizeObserver(update).observe(track);
-    update();
+
+    if (looped) {
+      track.classList.add("drifting");
+      toggle.hidden = false;
+      toggle.addEventListener("click", () => {
+        const paused = toggle.getAttribute("aria-pressed") !== "true";
+        toggle.setAttribute("aria-pressed", String(paused));
+        toggle.setAttribute("aria-label", paused ? "Play the showcase" : "Pause the showcase");
+        if (paused) hold("user"); else release("user");
+      });
+      new IntersectionObserver(([e]) => (e.isIntersecting ? release("offscreen") : hold("offscreen"))).observe(track);
+      document.addEventListener("visibilitychange", () => (document.hidden ? hold("hidden") : release("hidden")));
+      requestAnimationFrame(frame);
+    }
+    new ResizeObserver(updateArrows).observe(track);
+    updateArrows();
   }
 
   function dataError(err) {
@@ -177,8 +247,15 @@
       D.loadProducts().then((products) => {
         counts.forEach((el) => (el.textContent = products.length));
         if (featured) {
-          renderCatalog(featured, mixByOem(products, +featured.dataset.limit));
-          setupRail(featured.closest("[data-rail]"));
+          const picks = mixByOem(products, +featured.dataset.limit);
+          const drift = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+          // A drifting showcase loops over a second copy, hidden from screen readers and Tab.
+          renderCatalog(featured, drift ? picks.concat(picks) : picks);
+          [...featured.children].slice(picks.length).forEach((li) => {
+            li.setAttribute("aria-hidden", "true");
+            li.querySelectorAll("a").forEach((a) => (a.tabIndex = -1));
+          });
+          setupRail(featured.closest("[data-rail]"), picks.length);
         }
       }).catch((err) => { if (featured) featured.outerHTML = dataError(err); });
     }
