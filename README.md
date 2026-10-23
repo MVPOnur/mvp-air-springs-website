@@ -37,7 +37,7 @@ Put drawings in `assets/drawings/` and name each one after the MVP part number, 
 
 Open **`js/config.js`**. Every value in `[square brackets]` appears on the site in a dashed box until you replace it:
 - email, phone and street addresses;
-- factory street address and typical ship time.
+- typical ship time from Elk Grove Village.
 
 Leave a fact in brackets until it is confirmed.
 

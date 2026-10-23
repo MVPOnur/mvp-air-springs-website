@@ -8,7 +8,7 @@ window.MVP_CONFIG = {
   email: "sales@mvptruckparts.com",
   phone: "(224) 423-8860",
   warehouseAddress: "1001 Nicholas Blvd, Elk Grove Village, IL 60007",
-  factoryAddress: "[Street address], Bursa, Türkiye",
+  factoryAddress: "Başköy Sanayi Sitesi, 355. İsimsiz Sk. No: 9/A, Nilüfer, Bursa, Türkiye",
 
   // Where the "Become a distributor" form is sent.
   // FormSubmit needs no account: the first application sends an "Activate form"
