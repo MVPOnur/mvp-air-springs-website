@@ -212,6 +212,22 @@ p { margin: 0 0 1em; }
 .xref-results .to { font: 600 1.15rem/1 var(--font-mono); color: var(--navy); justify-self: end; }
 .xref-results mark { background: rgba(183,58,54,.14); color: inherit; padding: 0 1px; }
 .xref-results .sample-flag { grid-column: 1 / -1; }
+/* In the hero the search box is frosted glass over the factory video; the field stays light. */
+.hero .xref { background: rgba(255,255,255,.07); color: var(--on-dark); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.18), 0 20px 40px -24px rgba(0,0,0,.6); }
+.hero .xref label { color: #fff; }
+.hero .xref .hint, .hero .xref-brands { color: var(--on-dark-2); }
+.hero .xref input { background: rgba(255,255,255,.94); border-color: rgba(255,255,255,.4); }
+.hero .xref input:focus { background: #fff; border-color: #8fa0d8; box-shadow: 0 0 0 3px rgba(143,160,216,.35); }
+.hero .xref-status { color: var(--on-dark); }
+.hero .xref-results { border-top-color: rgba(255,255,255,.2); }
+.hero .xref-results li { border-bottom-color: rgba(255,255,255,.12); }
+.hero .xref-results a { color: var(--on-dark); }
+.hero .xref-results a:hover, .hero .xref-results a:focus-visible { background: rgba(255,255,255,.08); }
+.hero .xref-results .from small { color: var(--on-dark-2); }
+.hero .xref-results .arrow { color: rgba(255,255,255,.35); }
+.hero .xref-results .to { color: #fff; }
+.hero .xref-results mark { background: rgba(231,128,124,.35); }
 @media (max-width: 520px) {
   .xref-row { flex-direction: column; }
   .xref-results a { grid-template-columns: 1fr auto; }
