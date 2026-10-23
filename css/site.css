@@ -237,35 +237,21 @@ p { margin: 0 0 1em; }
   .pl-art svg { max-width: 190px; }
 }
 
-/* Part number in the rubber: the air spring, a lens on the molded number, a warranty seal. */
+/* What goes into an MVP air spring: cutaway image with numbered markers matching the list. */
 .marking { padding-top: 0; }
-.mk-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: clamp(28px, 5vw, 72px); }
-.mk-art svg { width: 100%; max-width: 420px; height: auto; display: block; margin: 0 auto; }
-.mk-art .rubber { fill: url(#mk-rubber); }
-.mk-art .metal { fill: url(#mk-metal); stroke: var(--navy); stroke-width: 1.2; }
-.mk-art .ridge { fill: none; stroke: rgba(255,255,255,.08); stroke-width: 1.4; }
-.mk-art .lobe-shade { fill: none; stroke: rgba(0,0,0,.55); stroke-width: 3; }
-.mk-art text { font: 600 16px/1 var(--font-mono); letter-spacing: .08em; text-anchor: middle; }
-.mk-art .mold { fill: rgba(255,255,255,.3); }
-.mk-art .mold-shade { fill: rgba(0,0,0,.65); }
-.mk-art .lens-text { font-size: 20px; }
-.mk-art .mk-ring { fill: none; stroke: #e7807c; stroke-width: 1.6; stroke-dasharray: 4 3; }
-.mk-art .mk-leader { fill: none; stroke: var(--red); stroke-width: 1.6; }
-.mk-art .lens-ring { fill: none; stroke: var(--red); stroke-width: 3; }
-.mk-art .seal-face { fill: #fff; stroke: var(--navy); stroke-width: 3; }
-.mk-art .seal-inner { fill: none; stroke: var(--navy); stroke-width: 1.2; }
-.mk-art .seal-arc { font: 700 10.5px/1 var(--font-display); letter-spacing: .2em; fill: var(--navy); }
-.mk-art .seal-band { fill: var(--navy); }
-.mk-art .seal-years { font: 700 21px/1 var(--font-display); letter-spacing: .04em; fill: #fff; }
-.mk-art .seal-star { fill: var(--red); }
-.mk-art .mk-dot circle { fill: var(--red); stroke: #fff; stroke-width: 2; }
-.mk-art .mk-dot text { font: 700 12px/1 var(--font-display); letter-spacing: 0; fill: #fff; }
+.mk-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(28px, 5vw, 72px); }
+.mk-figure { margin: 0; background: #fff; border: 1px solid var(--rule-strong); padding: clamp(18px, 3vw, 36px); }
+.mk-photo { position: relative; }
+.mk-photo img { width: 100%; height: auto; display: block; }
+.mk-leaders { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.mk-leaders path { fill: none; stroke: var(--red); stroke-width: 1.6; vector-effect: non-scaling-stroke; }
+.mk-dot { position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%); width: 28px; height: 28px;
+  display: grid; place-items: center; border-radius: 50%; background: var(--red); color: #fff; border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(11,22,56,.3); font: 700 .95rem/1 var(--font-display); }
 .mk-text { color: var(--ink-2); font-size: 1.12rem; max-width: 34em; margin: 0 0 12px; }
 .mk-copy .num-list { margin-bottom: 28px; }
-@media (max-width: 800px) {
-  .mk-grid { grid-template-columns: 1fr; }
-  .mk-art svg { max-width: 320px; }
-}
+@media (max-width: 800px) { .mk-grid { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .mk-dot { width: 24px; height: 24px; font-size: .85rem; } }
 
 /* Route map: Bursa → USA, Canada, Mexico → Elk Grove Village → across the USA.
    Stages are cumulative classes s1…s4 set by js/route-map.js. */
