@@ -31,6 +31,7 @@ window.MVP_CONFIG = {
     warranty: "3 years",
     leadTime: "[Typical ship time from Elk Grove Village]",
     factoryCapacity: "500,000 / yr",
+    factoryCapacityNumber: "500,000",
     factoryCapacityLong: "500,000 air springs",
   },
 };

@@ -92,6 +92,20 @@
     });
   }
 
+  /** Count a figure such as "500,000" up from zero once (skipped for reduced motion). */
+  function countUp(el) {
+    const target = parseInt(el.textContent.replace(/[^\d]/g, ""), 10);
+    if (!target || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const final = el.textContent;
+    const t0 = performance.now(), MS = 1600;
+    const tick = (t) => {
+      const k = Math.min(1, (t - t0) / MS), eased = 1 - Math.pow(1 - k, 3);
+      el.textContent = k < 1 ? Math.round(target * eased).toLocaleString("en-US") : final;
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
   /** Pick parts round-robin across OEMs so a short showcase shows the range. */
   function mixByOem(products, n) {
     const groups = new Map();
@@ -246,7 +260,7 @@
       if (!("IntersectionObserver" in window)) return;
       el.classList.add("armed");
       new IntersectionObserver(([e], obs) => {
-        if (e.isIntersecting) { el.classList.add("in"); obs.disconnect(); }
+        if (e.isIntersecting) { el.classList.add("in"); obs.disconnect(); el.querySelectorAll("[data-countup]").forEach(countUp); }
       }, { threshold: 0.35 }).observe(el);
     });
 
