@@ -19,7 +19,7 @@ Static marketing site for MVP Air Springs (heavy-duty truck and trailer air spri
 - **MVP numbers:** `23-` + the last 4 digits of the Firestone number.
 - **Supply-line map:** `assets/route-map.svg` is generated from Natural Earth data. It is animated by `js/route-map.js`.
 - **Contacts, facts, form endpoint:** `js/config.js`.
-- **Product lines (truck, trailer, cab):** drawings are inline SVG in `index.html`. `js/lines-drive.js` moves the road, lifts wheels over stones and compresses the springs.
+- **Product lines (cab, truck, trailer):** one tractor-trailer drawn as inline SVG in `index.html` (regenerate with care: the drive script relies on its `.chassis`, `.axle`, `.spring[data-group]` and `.callout` groups). `js/lines-drive.js` rolls it over potholes so the springs stretch, and the pick cards below highlight a product line on the rig.
 - **3D air springs:**
   - Models are defined in `js/models3d.js`. Each model's profile is traced from a side photo; 23-8050 is also sized to its catalog drawing.
   - `js/viewer3d.js` draws them with three.js, vendored in `js/vendor/three/` (MIT) and loaded through an import map on `index.html` and `product.html`.

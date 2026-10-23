@@ -285,41 +285,59 @@ p { margin: 0 0 1em; }
   .route-map .city { stroke-width: 4; }
 }
 
-/* Product lines: truck, trailer, cab. Drawings draw themselves once when the
-   section scrolls in; then js/lines-drive.js moves the road and works the springs. */
+/* Product lines: one tractor-trailer with the cab, truck and trailer air springs
+   called out. The drawing draws itself in once; js/lines-drive.js then rolls it
+   over potholes, and the pick cards below highlight a product line on the rig. */
 .lines { padding-bottom: 0; }
-.line-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-.line-card { background: #fff; border: 1px solid var(--rule-strong); padding: 22px 22px 24px; position: relative; transition: transform .25s, box-shadow .25s, border-color .25s; }
-.line-card::before { content: ""; position: absolute; inset: 6px; border: 1px solid var(--rule); pointer-events: none; }
-.line-card:hover { transform: translateY(-4px); border-color: var(--navy); box-shadow: 0 16px 32px -22px rgba(11,22,56,.55); }
-.line-art { aspect-ratio: 360 / 160; margin-bottom: 14px;
+.rig { background: #fff; border: 1px solid var(--rule-strong); position: relative; }
+.rig::before { content: ""; position: absolute; inset: 6px; border: 1px solid var(--rule); pointer-events: none; z-index: 1; }
+.rig-stage { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; padding: 18px 16px 10px;
   background-image: linear-gradient(var(--paper-2) 1px, transparent 1px), linear-gradient(90deg, var(--paper-2) 1px, transparent 1px); background-size: 16px 16px; }
-.line-art svg { width: 100%; height: 100%; overflow: visible; }
-.line-art .lane { stroke: var(--rule-strong); stroke-width: 1.4; stroke-dasharray: 12 10; fill: none; }
-.line-art .stones path { fill: var(--ink-3); }
-.line-art .draw-line { fill: none; stroke: var(--navy); stroke-width: 1.6; }
-.line-art .axle, .line-art .chassis, .line-art .zoom-frame { transform-box: view-box; }
-.line-art .draw * { fill: none; stroke: var(--navy); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
-.line-art .draw .rib { stroke: var(--rule-strong); stroke-width: 1; }
-.line-art .draw .ghost { stroke: var(--rule-strong); }
-.line-art .spring .plate { fill: var(--ink-2); stroke: none; }
-.line-art .label path { stroke: var(--red); stroke-width: 1; fill: none; }
-.line-art text { font: 600 9px/1 var(--font-mono); letter-spacing: .08em; fill: var(--red-dark); }
-.line-art .zoom circle { fill: #fff; stroke: var(--navy); stroke-width: 1.6; }
-.line-art .zoom .lead { stroke: var(--navy); stroke-width: 1; stroke-dasharray: 3 3; fill: none; }
-.line-art .zoom .part { fill: var(--rule); stroke: var(--navy); stroke-width: 1.2; }
-.line-art .spring rect { fill: var(--red); stroke: var(--red-dark); stroke-width: 1.5; }
-.line-card h3 { font-size: 1.9rem; text-transform: uppercase; color: var(--navy); margin: 0 0 4px; position: relative; }
-.line-card p { color: var(--ink-2); margin: 0; position: relative; }
-@media (max-width: 800px) { .line-cards { grid-template-columns: 1fr; } }
+.rig-stage svg { display: block; width: 100%; min-width: 680px; height: auto; overflow: visible; }
+.rig .draw * { fill: none; stroke: var(--navy); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+.rig .draw .rib { stroke: var(--rule-strong); stroke-width: 1; }
+.rig .draw .ghost { stroke: var(--rule-strong); }
+.rig .road { fill: none; stroke: var(--navy); stroke-width: 1.6; stroke-linejoin: round; }
+.rig .pits { fill: var(--rule); stroke: none; }
+.rig .lane { stroke: var(--rule-strong); stroke-width: 1.4; stroke-dasharray: 12 10; fill: none; }
+.rig .chassis, .rig .axle, .rig .steer, .rig .spring { transform-box: view-box; }
+.rig .spring .lobe { fill: var(--red); stroke: var(--red-dark); stroke-width: 1.2; transition: fill .2s, filter .2s; }
+.rig .spring .plate { fill: var(--ink-2); }
+.rig .callout .leader, .rig .callout .bracket { stroke: var(--red); stroke-width: 1; fill: none; }
+.rig .callout .dot { fill: var(--red); }
+.rig .callout .pill { fill: #fff; stroke: var(--red); stroke-width: 1; transition: fill .2s; }
+.rig .callout text { font: 600 9.5px/1 var(--font-mono); letter-spacing: .08em; fill: var(--red-dark); transition: fill .2s; }
+.rig .callout { transition: opacity .25s; }
+/* a picked product line lights up; the others step back */
+.rig svg[data-show] .callout { opacity: .3; }
+.rig svg[data-show="cab"] .callout[data-group="cab"], .rig svg[data-show="truck"] .callout[data-group="truck"], .rig svg[data-show="trailer"] .callout[data-group="trailer"] { opacity: 1; }
+.rig svg[data-show="cab"] .callout[data-group="cab"] .pill, .rig svg[data-show="truck"] .callout[data-group="truck"] .pill, .rig svg[data-show="trailer"] .callout[data-group="trailer"] .pill { fill: var(--red); }
+.rig svg[data-show="cab"] .callout[data-group="cab"] text, .rig svg[data-show="truck"] .callout[data-group="truck"] text, .rig svg[data-show="trailer"] .callout[data-group="trailer"] text { fill: #fff; }
+.rig svg[data-show="cab"] .spring[data-group="cab"] .lobe, .rig svg[data-show="truck"] .spring[data-group="truck"] .lobe, .rig svg[data-show="trailer"] .spring[data-group="trailer"] .lobe { fill: #e0524c; filter: drop-shadow(0 0 3px rgba(183,58,54,.9)); }
 
-/* animation states (only when motion is allowed and JS has armed the section) */
+.rig-hint { display: none; margin: 0; padding: 12px 16px 0; font: 500 .75rem/1 var(--font-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); position: relative; z-index: 2; }
+@media (max-width: 720px) { .rig-hint { display: block; } }
+.line-picks { list-style: none; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.pick { width: 100%; height: 100%; display: grid; grid-template-columns: 88px 1fr; grid-template-rows: auto 1fr; column-gap: 16px; text-align: left; cursor: pointer;
+  background: #fff; border: 1px solid var(--rule-strong); border-radius: var(--radius); padding: 16px; color: var(--ink); font: inherit;
+  transition: border-color .2s, box-shadow .2s, transform .2s; }
+.pick:hover, .pick:focus-visible { border-color: var(--navy); box-shadow: 0 12px 26px -20px rgba(11,22,56,.6); }
+.pick[aria-pressed="true"] { border-color: var(--red); box-shadow: inset 0 -3px 0 var(--red); }
+.pick-photo { grid-row: 1 / span 2; width: 88px; height: 88px; display: grid; place-items: center; background: var(--paper); border: 1px solid var(--rule); }
+.pick-photo img { width: 100%; height: 100%; object-fit: contain; }
+.pick-photo svg { width: 56px; height: 56px; }
+.pick-photo svg rect { fill: var(--ink-2); }
+.pick-photo svg .lobe { fill: var(--red); }
+.pick-title { font: 700 1.45rem/1.05 var(--font-display); text-transform: uppercase; color: var(--navy); align-self: end; margin-bottom: 4px; }
+.pick-text { color: var(--ink-2); font-size: .95rem; }
+@media (max-width: 900px) { .line-picks { grid-template-columns: 1fr; gap: 12px; } }
+
 @media (prefers-reduced-motion: no-preference) {
-  .line-cards.armed .draw *, .line-cards.armed .draw-line { stroke-dasharray: 1; stroke-dashoffset: 1; }
-  .line-cards.armed .spring, .line-cards.armed .label, .line-cards.armed .zoom { opacity: 0; }
-  .line-cards.in .draw *, .line-cards.in .draw-line { transition: stroke-dashoffset 1.4s cubic-bezier(.45,0,.25,1) var(--d); stroke-dashoffset: 0; }
-  .line-cards.in .spring { opacity: 1; transition: opacity .3s calc(var(--d) + 1.2s); }
-  .line-cards.in .label, .line-cards.in .zoom { opacity: 1; transition: opacity .5s calc(var(--d) + 1.5s); }
+  .rig.armed .draw *, .rig.armed .road { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .rig.armed .spring, .rig.armed .callout { opacity: 0; }
+  .rig.in .draw *, .rig.in .road { transition: stroke-dashoffset 1.8s cubic-bezier(.45,0,.25,1); stroke-dashoffset: 0; }
+  .rig.in .spring { opacity: 1; transition: opacity .4s 1.6s; }
+  .rig.in .callout { opacity: 1; transition: opacity .5s 1.9s; }
 }
 
 /* Fact sheet: spec-table style list of claims */
