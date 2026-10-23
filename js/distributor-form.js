@@ -21,13 +21,11 @@
   function summaryText(form) {
     const data = new FormData(form);
     const lines = [];
-    for (const el of form.querySelectorAll("input:not([type=checkbox]):not(#fax), select, textarea")) {
+    for (const el of form.querySelectorAll("input:not(#fax), select, textarea")) {
       const label = form.querySelector(`label[for="${el.id}"]`);
       const value = (data.get(el.name) || "").toString().trim();
-      if (value) lines.push(`${label ? label.childNodes[0].textContent.trim() : el.name}: ${value}`);
+      if (value) lines.push(`${label ? label.childNodes[0].textContent.trim() : "Part number"}: ${value}`);
     }
-    const brands = data.getAll("brands");
-    if (brands.length) lines.push(`Brands carried today: ${brands.join(", ")}`);
     return lines.join("\n");
   }
 
@@ -39,9 +37,14 @@
     const success = document.querySelector("[data-success]");
     const fields = [...form.querySelectorAll("input[data-msg], select[data-msg]")];
 
-    // Part number handed over from a product page or a failed search.
+    // Part number handed over from a product page or a failed search: sent
+    // with the application in a hidden field, and shown above the button.
     const part = new URLSearchParams(location.search).get("part");
-    if (part) form.elements.parts.value = part;
+    if (part) {
+      form.elements.parts.value = part;
+      form.querySelector("[data-part-label]").textContent = part;
+      form.querySelector("[data-part-note]").hidden = false;
+    }
 
     for (const f of fields) {
       f.addEventListener("blur", () => { if (f.value || f.getAttribute("aria-invalid") === "true") showError(f, messageFor(f)); });
@@ -84,7 +87,6 @@
       submit.textContent = "Sending…";
       try {
         const data = new FormData(form);
-        data.set("brands", data.getAll("brands").join(", "));
         let req;
         if (/formsubmit\.co/.test(cfg.formEndpoint)) {
           // FormSubmit (no account): JSON body, _honey is its honeypot, _template "table"

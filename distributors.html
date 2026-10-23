@@ -53,8 +53,8 @@
       <aside class="form-aside" aria-labelledby="steps-title">
         <h2 id="steps-title">How it works</h2>
         <ol>
-          <li><strong>Send this form</strong>About two minutes. No commitment.</li>
-          <li><strong>We review it</strong>We look at your market and the lines you carry today.</li>
+          <li><strong>Send this form</strong>Less than a minute. No commitment.</li>
+          <li><strong>We review it</strong>We look at your company and your market.</li>
           <li><strong>We talk terms</strong>Pricing, stocking list and ordering from Elk Grove Village.</li>
         </ol>
         <h2>Questions first?</h2>
@@ -119,61 +119,20 @@
                 <p class="error" id="state-error"></p>
               </div>
             </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Contact</legend>
             <div class="grid-2">
-              <div class="field">
-                <label for="name">Your name <span class="req" aria-hidden="true">*</span></label>
-                <input id="name" aria-describedby="name-error" name="name" type="text" autocomplete="name" required data-msg="Enter your name">
-                <p class="error" id="name-error"></p>
-              </div>
-              <div class="field">
-                <label for="title">Job title <span class="opt">(optional)</span></label>
-                <input id="title" name="title" type="text" autocomplete="organization-title">
-              </div>
               <div class="field">
                 <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
                 <input id="email" aria-describedby="email-error" name="email" type="email" autocomplete="email" inputmode="email" required data-msg="Enter an email address like name@company.com">
                 <p class="error" id="email-error"></p>
               </div>
               <div class="field">
-                <label for="phone">Phone <span class="req" aria-hidden="true">*</span></label>
-                <input id="phone" aria-describedby="phone-error" name="phone" type="tel" autocomplete="tel" inputmode="tel" required pattern="[0-9+()\-.\s]{7,}" data-msg="Enter a phone number we can reach you on">
+                <label for="phone">Phone <span class="opt">(optional)</span></label>
+                <input id="phone" aria-describedby="phone-error" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+\(\)\-.\s]{7,}" data-msg="Enter a phone number we can reach you on">
                 <p class="error" id="phone-error"></p>
               </div>
             </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Your air spring business</legend>
-            <div class="field" role="group" aria-labelledby="brands-label">
-              <span class="label" id="brands-label">Air spring brands you carry today <span class="opt">(optional)</span></span>
-              <div class="checks">
-                <label class="check"><input type="checkbox" name="brands" value="Firestone"> Firestone</label>
-                <label class="check"><input type="checkbox" name="brands" value="Goodyear"> Goodyear</label>
-                <label class="check"><input type="checkbox" name="brands" value="ContiTech"> ContiTech</label>
-                <label class="check"><input type="checkbox" name="brands" value="Other"> Other</label>
-                <label class="check"><input type="checkbox" name="brands" value="None yet"> None yet</label>
-              </div>
-            </div>
-            <div class="field">
-              <label for="volume">Estimated air springs per month <span class="opt">(optional)</span></label>
-              <select id="volume" name="volume">
-                <option value="">Choose…</option>
-                <option>Under 50</option><option>50–200</option><option>200–500</option><option>More than 500</option><option>Not sure yet</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="parts">Part numbers you’re interested in <span class="opt">(optional)</span></label>
-              <p class="help" id="parts-help">Any brand’s numbers, separated by commas.</p>
-              <input id="parts" name="parts" type="text" aria-describedby="parts-help" class="mono">
-            </div>
-            <div class="field">
-              <label for="message">Anything else? <span class="opt">(optional)</span></label>
-              <textarea id="message" name="message" rows="4"></textarea>
-            </div>
+            <input type="hidden" name="parts">
+            <p class="form-part" data-part-note hidden>Part number you asked about: <strong class="mono" data-part-label></strong></p>
           </fieldset>
 
           <div class="hp" aria-hidden="true"><label for="fax">Leave this empty</label><input id="fax" name="_gotcha" type="text" tabindex="-1" autocomplete="off"></div>
