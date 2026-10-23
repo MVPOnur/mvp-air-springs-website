@@ -22,7 +22,7 @@ window.MVP_CONFIG = {
 
   // Parts that have a 3D model (js/models3d.js + assets/3d/). Their product
   // page gets a "3D view" tab next to the drawing.
-  models3d: ["23-8050", "23-8468"],
+  models3d: ["23-8050"],
 
   // Facts to confirm before launch. Shown as placeholders until filled in.
   facts: {

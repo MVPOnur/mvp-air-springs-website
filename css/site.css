@@ -276,13 +276,6 @@ p { margin: 0 0 1em; }
 .map-steps button:hover { color: #fff; }
 .map-steps button[aria-current="step"] { color: #fff; border-top-color: #e7807c; }
 .map-steps button[aria-current="step"] span { color: #e7807c; }
-.map-replay {
-  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; cursor: pointer;
-  background: transparent; color: #fff; border: 1px solid #56628c; border-radius: var(--radius);
-  font: 600 .95rem/1 var(--font-display); text-transform: uppercase; letter-spacing: .06em;
-}
-.map-replay svg { width: 16px; height: 16px; }
-.map-replay:hover { border-color: #fff; }
 @media (max-width: 800px) { .map-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px) {
   .route-map .pin text, .route-map .label-bg { display: none; }

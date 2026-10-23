@@ -13,15 +13,5 @@ if (host && hasWebGL) {
     .then((m) => m.mountViewer(host, host.dataset.part))
     .catch((err) => console.error("3D viewer failed to load", err));
 } else if (host) {
-  host.querySelectorAll(".v3d-views, .v3d-models").forEach((el) => (el.hidden = true));
+  host.querySelectorAll(".v3d-views").forEach((el) => (el.hidden = true));
 }
-
-// "View part" follows the model on show.
-host?.querySelectorAll("[data-model]").forEach((b) =>
-  b.addEventListener("click", () => {
-    const link = host.querySelector("[data-model-link]");
-    if (!link) return;
-    link.href = `product.html?part=${encodeURIComponent(b.dataset.model)}`;
-    link.hidden = b.hasAttribute("data-no-page"); // not in the catalog yet
-  }),
-);

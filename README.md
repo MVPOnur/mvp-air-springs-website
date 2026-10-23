@@ -56,7 +56,7 @@ Then open http://localhost:8000.
 
 ## 3D models
 
-The home page hero shows the 3D air springs with a model switch, and a part that has a model gets a **3D view** tab on its product page. Two parts have models today: 23-8050 and 23-8468.
+The home page hero shows 23-8050 in 3D, spinning on its own; visitors can turn it and it starts spinning again after a pause. A part that has a model also gets a **3D view** tab on its product page.
 
 Each model is defined in `js/models3d.js` and drawn by `js/viewer3d.js`:
 - **Body shape:** traced from a straight side photo. For 23-8050 it is also sized to the catalog drawing.

@@ -1,8 +1,9 @@
 // Home page supply-line map: Bursa → USA, Canada, Mexico → Elk Grove Village → across the USA.
-// Plays once when scrolled into view; the step buttons jump to any stage.
+// Loops on its own while it is on screen; the step buttons jump to any stage.
 (function () {
   "use strict";
-  const STEP_MS = { 1: 1500, 2: 3300, 3: 3200 }; // time on each stage before the next one
+  // How long each stage stays before the next one; after stage 4 it zooms back out to 1.
+  const STEP_MS = { 1: 2200, 2: 3300, 3: 3200, 4: 4500 };
 
   document.addEventListener("DOMContentLoaded", () => {
     const fig = document.querySelector("[data-route-map]");
@@ -11,30 +12,29 @@
     const buttons = [...fig.querySelectorAll("[data-step]")];
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let cam = null;
+    let stage = 0;
     let timer = 0;
+    let visible = false;
 
-    function show(stage, instant) {
+    function show(n, instant) {
+      stage = n;
       fig.classList.toggle("instant", !!instant || reduce);
-      for (let i = 1; i <= 4; i++) fig.classList.toggle("s" + i, i <= stage);
-      if (cam) cam.style.transform = stage >= 3 ? cam.dataset.zoom : "none";
-      buttons.forEach((b) => (+b.dataset.step === stage ? b.setAttribute("aria-current", "step") : b.removeAttribute("aria-current")));
+      for (let i = 1; i <= 4; i++) fig.classList.toggle("s" + i, i <= n);
+      if (cam) cam.style.transform = n >= 3 ? cam.dataset.zoom : "none";
+      buttons.forEach((b) => (+b.dataset.step === n ? b.setAttribute("aria-current", "step") : b.removeAttribute("aria-current")));
       if (instant) requestAnimationFrame(() => requestAnimationFrame(() => fig.classList.toggle("instant", reduce)));
     }
 
-    function play() {
+    function schedule() {
       clearTimeout(timer);
-      show(0, true);
-      let stage = 0;
-      const next = () => {
-        stage++;
-        show(stage);
-        if (stage < 4) timer = setTimeout(next, STEP_MS[stage]);
-      };
-      timer = setTimeout(next, 120);
+      if (reduce || !visible || !cam) return;
+      timer = setTimeout(() => {
+        show(stage >= 4 ? 1 : stage + 1);
+        schedule();
+      }, STEP_MS[stage] || 400);
     }
 
-    buttons.forEach((b) => b.addEventListener("click", () => { clearTimeout(timer); show(+b.dataset.step); }));
-    fig.querySelector("[data-replay]").addEventListener("click", () => (reduce ? show(1) : play()));
+    buttons.forEach((b) => b.addEventListener("click", () => { show(+b.dataset.step); schedule(); }));
 
     fetch(holder.dataset.mapSrc)
       .then((r) => { if (!r.ok) throw new Error(r.status); return r.text(); })
@@ -43,10 +43,12 @@
         cam = holder.querySelector(".cam");
         if (reduce) { show(2, true); return; }
         show(0, true);
-        if (!("IntersectionObserver" in window)) return play();
-        new IntersectionObserver((entries, obs) => {
-          if (entries.some((e) => e.isIntersecting)) { obs.disconnect(); play(); }
-        }, { threshold: 0.4 }).observe(fig);
+        // Run only while the map is on screen; pick up where it left off.
+        if (!("IntersectionObserver" in window)) { visible = true; return schedule(); }
+        new IntersectionObserver(([e]) => {
+          visible = e.isIntersecting;
+          if (visible) schedule(); else clearTimeout(timer);
+        }, { threshold: 0.25 }).observe(fig);
       })
       .catch((err) => { console.error(err); holder.hidden = true; });
   });

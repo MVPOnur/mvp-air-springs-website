@@ -143,8 +143,15 @@ export function mountViewer(host, part) {
   controls.maxPolarAngle = Math.PI - 0.02;
 
   let flyTo = null;
-  // Auto-rotation stops for good once the visitor takes over.
-  controls.addEventListener("start", () => { controls.autoRotate = false; flyTo = null; });
+  // The visitor can turn it any time; it starts spinning again after a pause.
+  const RESUME_MS = 3500;
+  let resumeTimer = 0;
+  function resumeLater(ms = RESUME_MS) {
+    clearTimeout(resumeTimer);
+    if (!reduce) resumeTimer = setTimeout(() => { controls.autoRotate = true; loop(); }, ms);
+  }
+  controls.addEventListener("start", () => { controls.autoRotate = false; flyTo = null; clearTimeout(resumeTimer); });
+  controls.addEventListener("end", () => resumeLater());
   controls.addEventListener("change", () => { if (reduce) render(); });
 
   let current = null;
@@ -162,6 +169,7 @@ export function mountViewer(host, part) {
     controls.autoRotate = false;
     flyTo = { from: camera.position.clone(), to: views[name].clone(), t: reduce ? 1 : 0 };
     host.querySelectorAll("[data-view]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.view === name)));
+    resumeLater(5000);
     loop();
   }
   host.querySelectorAll("[data-view]").forEach((b) => b.addEventListener("click", () => setView(b.dataset.view)));
