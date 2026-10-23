@@ -60,7 +60,7 @@
         return;
       }
       summary.hidden = true;
-      if (form.elements.fax.value) return; // spam bot filled the hidden field
+      if (form.elements._gotcha.value) return; // spam bot filled the hidden field
 
       const done = (viaEmail) => {
         if (viaEmail) {
@@ -72,8 +72,8 @@
         success.focus();
       };
 
+      const subject = `Distributor application — ${form.elements.company.value.trim()}`;
       if (!cfg.formEndpoint) {
-        const subject = `Distributor application — ${form.elements.company.value}`;
         const to = /\[/.test(cfg.email) ? "" : cfg.email;
         location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(summaryText(form))}`;
         done(true);
@@ -83,10 +83,15 @@
       submit.disabled = true;
       submit.textContent = "Sending…";
       try {
+        // Formspree-style POST: _subject sets the email subject, _gotcha is the honeypot,
+        // and the "email" field becomes the reply-to address.
+        const data = new FormData(form);
+        data.set("_subject", subject);
+        data.set("brands", data.getAll("brands").join(", "));
         const res = await fetch(cfg.formEndpoint, {
           method: "POST",
           headers: { Accept: "application/json" },
-          body: new FormData(form),
+          body: data,
         });
         if (!res.ok) throw new Error(res.status);
         done();
@@ -95,7 +100,8 @@
         submit.disabled = false;
         submit.textContent = "Send application";
         summary.querySelector("h2").textContent = "Your application wasn’t sent";
-        summary.querySelector("ul").innerHTML = "<li>Please try again in a moment, or email us directly.</li>";
+        const mail = /\[/.test(cfg.email) ? "us" : `<a href="mailto:${cfg.email}">${cfg.email}</a>`;
+        summary.querySelector("ul").innerHTML = `<li>Please try again in a moment, or email ${mail} directly.</li>`;
         summary.hidden = false;
         summary.focus();
       }
