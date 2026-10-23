@@ -91,7 +91,7 @@ p { margin: 0 0 1em; }
 .site-header { position: sticky; top: 0; z-index: 50; background: var(--white); border-bottom: 1px solid var(--rule); }
 .site-header .wrap { display: flex; align-items: center; gap: 24px; min-height: 72px; }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--navy); flex: none; }
-.brand img { height: 50px; width: auto; }
+.brand img { height: 56px; width: auto; }
 .brand-name { font: 700 1.2rem/1 var(--font-display); text-transform: uppercase; letter-spacing: .04em; border-left: 1px solid var(--rule); padding-left: 12px; }
 .brand-name small { display: block; font: 500 .66rem/1.4 var(--font-mono); color: var(--ink-3); letter-spacing: .08em; }
 .nav { margin-left: auto; display: flex; align-items: center; gap: 4px; }
@@ -466,7 +466,7 @@ legend { font: 700 1.3rem/1 var(--font-display); text-transform: uppercase; lett
 .footer-grid ul { list-style: none; margin: 0; padding: 0; }
 .footer-grid li { margin-bottom: 8px; }
 .footer-grid address { font-style: normal; }
-.footer-grid .brand img { height: 64px; }
+.footer-grid .brand img { height: 76px; }
 .footer-tag { font: 700 1.25rem/1.2 var(--font-display); text-transform: uppercase; color: var(--navy); margin-top: 16px; }
 .disclaimer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--rule); font-size: .82rem; color: var(--ink-3); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; }
 .disclaimer p { margin: 0; max-width: 62em; }
