@@ -237,6 +237,34 @@ p { margin: 0 0 1em; }
   .pl-art svg { max-width: 190px; }
 }
 
+/* Part number in the rubber: the air spring, a lens on the molded number, a warranty seal. */
+.marking { padding-top: 0; }
+.mk-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: clamp(28px, 5vw, 72px); }
+.mk-art svg { width: 100%; max-width: 420px; height: auto; display: block; margin: 0 auto; }
+.mk-art .rubber { fill: url(#mk-rubber); }
+.mk-art .metal { fill: url(#mk-metal); stroke: var(--navy); stroke-width: 1.2; }
+.mk-art .ridge { fill: none; stroke: rgba(255,255,255,.08); stroke-width: 1.4; }
+.mk-art .lobe-shade { fill: none; stroke: rgba(0,0,0,.55); stroke-width: 3; }
+.mk-art text { font: 600 16px/1 var(--font-mono); letter-spacing: .08em; text-anchor: middle; }
+.mk-art .mold { fill: rgba(255,255,255,.3); }
+.mk-art .mold-shade { fill: rgba(0,0,0,.65); }
+.mk-art .lens-text { font-size: 20px; }
+.mk-art .mk-ring { fill: none; stroke: #e7807c; stroke-width: 1.6; stroke-dasharray: 4 3; }
+.mk-art .mk-leader { fill: none; stroke: var(--red); stroke-width: 1.6; }
+.mk-art .lens-ring { fill: none; stroke: var(--red); stroke-width: 3; }
+.mk-art .seal-face { fill: #fff; stroke: var(--navy); stroke-width: 3; }
+.mk-art .seal-inner { fill: none; stroke: var(--navy); stroke-width: 1.2; }
+.mk-art .seal-arc { font: 700 10.5px/1 var(--font-display); letter-spacing: .2em; fill: var(--navy); }
+.mk-art .seal-band { fill: var(--navy); }
+.mk-art .seal-years { font: 700 21px/1 var(--font-display); letter-spacing: .04em; fill: #fff; }
+.mk-art .seal-star { fill: var(--red); }
+.mk-text { color: var(--ink-2); font-size: 1.12rem; max-width: 34em; margin: 0 0 12px; }
+.mk-copy .num-list { margin-bottom: 28px; }
+@media (max-width: 800px) {
+  .mk-grid { grid-template-columns: 1fr; }
+  .mk-art svg { max-width: 320px; }
+}
+
 /* Route map: Bursa → USA, Canada, Mexico → Elk Grove Village → across the USA.
    Stages are cumulative classes s1…s4 set by js/route-map.js. */
 .route-map { margin: 0 0 32px; border: 1px solid var(--rule-strong); padding: clamp(12px, 3vw, 28px); }
@@ -455,7 +483,7 @@ p { margin: 0 0 1em; }
 .values .pillar-value { font-size: clamp(2.1rem, 3.6vw, 2.8rem); }
 .pl-about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px clamp(32px, 6vw, 80px); align-items: start; }
 .pl-about-text { color: var(--ink-2); font-size: 1.12rem; margin: 0 0 12px; }
-.pl-about .send-list { margin: 0; }
+.pl-about .num-list { margin: 0; }
 @media (max-width: 800px) { .pl-about { grid-template-columns: 1fr; } }
 .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; }
 .chip {
@@ -505,10 +533,10 @@ p { margin: 0 0 1em; }
 /* ---------- Form ---------- */
 .form-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 56px; padding: 56px 0 96px; align-items: start; }
 .form-aside h2 { font-size: 1.6rem; }
-.form-aside ol, .send-list { padding-left: 0; list-style: none; counter-reset: s; margin: 0 0 32px; }
-.form-aside li, .send-list li { counter-increment: s; padding: 14px 0 14px 48px; position: relative; border-bottom: 1px solid var(--rule); color: var(--ink-2); }
-.form-aside li::before, .send-list li::before { content: counter(s, decimal-leading-zero); position: absolute; left: 0; top: 14px; font: 500 .9rem/1.5 var(--font-mono); color: var(--red); }
-.form-aside li strong, .send-list li strong { display: block; color: var(--ink); }
+.form-aside ol, .num-list { padding-left: 0; list-style: none; counter-reset: s; margin: 0 0 32px; }
+.form-aside li, .num-list li { counter-increment: s; padding: 14px 0 14px 48px; position: relative; border-bottom: 1px solid var(--rule); color: var(--ink-2); }
+.form-aside li::before, .num-list li::before { content: counter(s, decimal-leading-zero); position: absolute; left: 0; top: 14px; font: 500 .9rem/1.5 var(--font-mono); color: var(--red); }
+.form-aside li strong, .num-list li strong { display: block; color: var(--ink); }
 @media (max-width: 900px) { .form-layout { grid-template-columns: 1fr; gap: 32px; } }
 
 .form { background: #fff; border: 1px solid var(--rule); padding: clamp(20px, 4vw, 40px); }
