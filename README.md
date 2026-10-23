@@ -41,7 +41,10 @@ Open **`js/config.js`**. Every value in `[square brackets]` appears on the site 
 
 Leave a fact in brackets until it is confirmed.
 
-**Form delivery:** `formEndpoint` is empty by default. In that case, sending the form opens the visitor's email app with the application already filled in. To receive applications directly, create a form endpoint (for example with Formspree) and paste its URL into `formEndpoint`.
+**Form delivery:** applications go through FormSubmit (`formEndpoint` in `js/config.js`) to sales@mvptruckparts.com, with no account needed:
+- The very first application sends an **"Activate form"** email to that address. Click the link once, and every application after that arrives as an email with the answers in a table.
+- If `formEndpoint` is emptied, the form opens the visitor's email app instead.
+- A Formspree URL also works in `formEndpoint`.
 
 ## Preview locally
 

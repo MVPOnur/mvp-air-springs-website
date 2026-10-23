@@ -83,17 +83,25 @@
       submit.disabled = true;
       submit.textContent = "Sending…";
       try {
-        // Formspree-style POST: _subject sets the email subject, _gotcha is the honeypot,
-        // and the "email" field becomes the reply-to address.
         const data = new FormData(form);
-        data.set("_subject", subject);
         data.set("brands", data.getAll("brands").join(", "));
-        const res = await fetch(cfg.formEndpoint, {
-          method: "POST",
-          headers: { Accept: "application/json" },
-          body: data,
-        });
-        if (!res.ok) throw new Error(res.status);
+        let req;
+        if (/formsubmit\.co/.test(cfg.formEndpoint)) {
+          // FormSubmit (no account): JSON body, _honey is its honeypot, _template "table"
+          // lays the answers out as a table in the email.
+          const fields = Object.fromEntries(data);
+          fields._honey = fields._gotcha;
+          delete fields._gotcha;
+          Object.assign(fields, { _subject: subject, _template: "table", _captcha: "false", _replyto: fields.email });
+          req = { headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(fields) };
+        } else {
+          // Formspree-style: _subject sets the subject, _gotcha is the honeypot.
+          data.set("_subject", subject);
+          req = { headers: { Accept: "application/json" }, body: data };
+        }
+        const res = await fetch(cfg.formEndpoint, { method: "POST", ...req });
+        const reply = await res.json().catch(() => ({}));
+        if (!res.ok || reply.success === false || reply.success === "false") throw new Error(reply.message || res.status);
         done();
       } catch (err) {
         console.error(err);

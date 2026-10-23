@@ -11,9 +11,10 @@ window.MVP_CONFIG = {
   factoryAddress: "[Street address], Bursa, Türkiye",
 
   // Where the "Become a distributor" form is sent.
+  // FormSubmit needs no account: the first application sends an "Activate form"
+  // email to this address, and applications arrive once that link is clicked.
   // Leave empty to open the visitor's email app with the filled-in form instead.
-  // Works with any service that accepts a JSON-friendly form POST (e.g. Formspree).
-  formEndpoint: "",
+  formEndpoint: "https://formsubmit.co/ajax/sales@mvptruckparts.com",
 
   // Product data and drawings, relative to the site root.
   productsCsv: "data/mvp-air-springs-products.csv",
