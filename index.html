@@ -15,6 +15,7 @@
   <script src="js/config.js" defer></script>
   <script src="js/data.js" defer></script>
   <script src="js/common.js" defer></script>
+  <script src="js/hero-video.js" defer></script>
   <script src="js/xref.js" defer></script>
   <script src="js/route-map.js" defer></script>
   <script src="js/lines-drive.js" defer></script>
@@ -45,6 +46,13 @@
 
 <main id="main">
   <section class="hero on-dark" id="cross-reference" aria-labelledby="hero-title">
+    <div class="hero-video" aria-hidden="true">
+      <video muted playsinline loop preload="none" poster="assets/video/factory-poster.webp" data-hero-video></video>
+    </div>
+    <button type="button" class="hero-video-toggle" data-hero-video-toggle aria-pressed="false" aria-label="Pause background video" hidden>
+      <svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+      <svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+    </button>
     <div class="wrap">
       <div>
         <p class="eyebrow">Heavy-duty truck &amp; trailer air springs</p>

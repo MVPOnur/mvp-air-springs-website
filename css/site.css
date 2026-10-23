@@ -140,6 +140,25 @@ p { margin: 0 0 1em; }
 .hero h1 .line2 { color: #c6cff0; display: block; }
 .hero h1 .mark { color: var(--red); }
 .hero .lede { font-size: 1.2rem; color: var(--on-dark-2); max-width: 36em; margin-bottom: 32px; }
+/* Factory footage behind the hero, under a navy film that keeps the text readable.
+   js/hero-video.js starts it; reduced motion and Save-Data keep the poster frame. */
+.hero-video { position: absolute; inset: 0; z-index: 0; background: var(--navy-deep); }
+.hero-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-video::after { content: ""; position: absolute; inset: 0;
+  background-image: linear-gradient(var(--grid-dark) 1px, transparent 1px), linear-gradient(90deg, var(--grid-dark) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11,22,56,.88), rgba(11,22,56,.82) 50%, rgba(11,22,56,.6));
+  background-size: 32px 32px, 32px 32px, auto; }
+.hero .wrap { position: relative; z-index: 1; }
+.hero-video-toggle { position: absolute; right: 16px; bottom: 16px; z-index: 2; width: 44px; height: 44px; display: grid; place-items: center;
+  border-radius: 50%; border: 1px solid rgba(255,255,255,.45); background: rgba(11,22,56,.6); color: #fff; cursor: pointer; }
+.hero-video-toggle:hover { background: rgba(11,22,56,.85); }
+.hero-video-toggle svg { width: 16px; height: 16px; }
+.hero-video-toggle .i-play, .hero-video-toggle[aria-pressed="true"] .i-pause { display: none; }
+.hero-video-toggle[aria-pressed="true"] .i-play { display: block; }
+@media (max-width: 900px) {
+  .hero-video::after { background-image: linear-gradient(var(--grid-dark) 1px, transparent 1px), linear-gradient(90deg, var(--grid-dark) 1px, transparent 1px),
+    linear-gradient(rgba(11,22,56,.86), rgba(11,22,56,.86)); }
+}
 /* 3D air spring in the hero */
 .viewer3d { margin: 0; }
 .v3d-stage { position: relative; aspect-ratio: 4 / 5; max-height: 560px; margin: 0 auto;
