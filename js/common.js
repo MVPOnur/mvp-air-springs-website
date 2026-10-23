@@ -255,6 +255,26 @@
     document.querySelectorAll("[data-fact]").forEach((el) => fill(el, cfg.facts[el.dataset.fact]));
     document.querySelectorAll("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
 
+    // Email buttons with a subject line; without JS they fall back to their href.
+    document.querySelectorAll("a[data-mail-subject]").forEach((a) => {
+      if (isPlaceholder(cfg.email)) return;
+      const q = "subject=" + encodeURIComponent(a.dataset.mailSubject)
+        + (a.dataset.mailBody ? "&body=" + encodeURIComponent(a.dataset.mailBody) : "");
+      a.href = "mailto:" + cfg.email + "?" + q;
+    });
+
+    // Photos set in config.js; a dashed "to be added" frame until one is set.
+    document.querySelectorAll("[data-photo]").forEach((fig) => {
+      const src = cfg.photos && cfg.photos[fig.dataset.photo];
+      const missing = () => { fig.classList.add("photo-missing"); fig.textContent = "Photo to be added"; };
+      if (!src) return missing();
+      const img = new Image();
+      img.alt = fig.dataset.alt || "";
+      img.onload = () => fig.replaceChildren(img);
+      img.onerror = missing;
+      img.src = src;
+    });
+
     // Sections that animate once when they scroll into view.
     document.querySelectorAll("[data-reveal]").forEach((el) => {
       if (!("IntersectionObserver" in window)) return;

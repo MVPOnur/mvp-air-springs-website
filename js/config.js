@@ -21,6 +21,12 @@ window.MVP_CONFIG = {
   drawingsDir: "assets/drawings/",
   drawingExtensions: ["webp", "png", "svg", "jpg"],
 
+  // Photos, relative to the site root. Leave empty until the photo is in
+  // assets/; the page shows a dashed "Photo to be added" frame meanwhile.
+  photos: {
+    factory: "", // About page, next to the intro (e.g. "assets/factory.webp")
+  },
+
   // Parts that have a 3D model (js/models3d.js + assets/3d/). Their product
   // page gets a "3D view" tab next to the drawing.
   models3d: ["23-8050"],

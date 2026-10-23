@@ -10,6 +10,7 @@ A static website for US truck-parts distributors. It is plain HTML, CSS and Java
 | `products.html` | Full catalog with search and an OEM filter (Hendrickson, Neway, …). `?q=W01-358-9781` pre-fills the search |
 | `product.html?part=23-9781` | One page per product: technical drawing, interchange numbers, dimensions, print-friendly spec sheet |
 | `distributors.html` | "Become a distributor" application form |
+| `about.html` | About us: who we are, mission and vision, values, private label manufacturing |
 
 ## Adding or changing products
 
@@ -36,6 +37,8 @@ Put drawings in `assets/drawings/` and name each one after the MVP part number, 
 ## Placeholders to fill in
 
 Open **`js/config.js`**. Every value in `[square brackets]` appears on the site in a dashed box until you replace it. All current values are confirmed; use brackets for any new fact until it is confirmed.
+
+**Photos:** `photos` in `js/config.js` points to photos in `assets/`. While a path is empty the page shows a dashed "Photo to be added" frame (the About page factory photo is still to come).
 
 **Form delivery:** applications go through FormSubmit (`formEndpoint` in `js/config.js`) to sales@mvptruckparts.com, with no account needed:
 - The very first application sends an **"Activate form"** email to that address. Click the link once, and every application after that arrives as an email with the answers in a table.
