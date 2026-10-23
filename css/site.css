@@ -258,6 +258,8 @@ p { margin: 0 0 1em; }
 .mk-art .seal-band { fill: var(--navy); }
 .mk-art .seal-years { font: 700 21px/1 var(--font-display); letter-spacing: .04em; fill: #fff; }
 .mk-art .seal-star { fill: var(--red); }
+.mk-art .mk-dot circle { fill: var(--red); stroke: #fff; stroke-width: 2; }
+.mk-art .mk-dot text { font: 700 12px/1 var(--font-display); letter-spacing: 0; fill: #fff; }
 .mk-text { color: var(--ink-2); font-size: 1.12rem; max-width: 34em; margin: 0 0 12px; }
 .mk-copy .num-list { margin-bottom: 28px; }
 @media (max-width: 800px) {
