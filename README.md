@@ -1,6 +1,8 @@
 # MVP Air Springs website
 
-A static website for US truck-parts distributors. It is plain HTML, CSS and JavaScript, with no build step, so any static host can serve it: Cloudflare Pages, Netlify, GitHub Pages or ordinary web hosting. Upload the contents of this `website/` folder as the site root.
+A static website for US truck-parts distributors. It is plain HTML, CSS and JavaScript, with no build step, so any static host can serve it: Cloudflare Pages, Netlify, GitHub Pages or ordinary web hosting. Upload the contents of this folder as the site root.
+
+**Live preview:** GitHub Pages serves `main` at https://mvponur.github.io/mvp-air-springs-website/ (Settings → Pages → Deploy from a branch → `main` / root). `.nojekyll` tells Pages to serve the files as they are. All paths are relative, so the site also works in that subfolder.
 
 ## Pages
 
