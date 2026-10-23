@@ -256,11 +256,11 @@ p { margin: 0 0 1em; }
   .pl-art svg { max-width: 190px; }
 }
 
-/* What goes into an MVP air spring: cutaway with round close-ups; rings, leaders and
-   numbers are drawn over the image so they stay sharp and match the list. */
+/* What goes into an MVP air spring: cutaway with round close-ups on a transparent image,
+   straight on the page; rings, leaders and numbers are drawn over it so they stay sharp. */
 .marking { padding-top: 0; }
 .mk-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(28px, 5vw, 72px); }
-.mk-figure { margin: 0; background: #fff; border: 1px solid var(--rule-strong); padding: clamp(18px, 3vw, 36px); }
+.mk-figure { margin: 0; }
 .mk-photo { position: relative; }
 .mk-photo img { width: 100%; height: auto; display: block; }
 .mk-leaders { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
