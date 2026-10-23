@@ -204,25 +204,34 @@ p { margin: 0 0 1em; }
 @media (max-width: 800px) { .section-head { grid-template-columns: 1fr; gap: 8px; } }
 
 /* Private label manufacturing: one quiet panel, copy on the left, drawing on the right */
-.private-label { padding-top: 0; }
+.range { padding-top: 0; }
 .pl-panel { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); align-items: center; gap: 40px;
   background: #fff; border: 1px solid var(--rule-strong); padding: clamp(28px, 5vw, 56px); position: relative; }
 .pl-panel::before { content: ""; position: absolute; inset: 6px; border: 1px solid var(--rule); pointer-events: none; }
 .pl-copy { position: relative; }
 .pl-copy h2 { margin-bottom: 16px; }
 .pl-text { color: var(--ink-2); font-size: 1.12rem; max-width: 34em; margin-bottom: 28px; }
+/* Half-section air spring after the catalog drawings: bead plate with studs,
+   rubber sleeve (two strokes make the wall), piston with the bumper cut. */
 .pl-art { position: relative; display: grid; place-items: center; }
-.pl-art svg { width: 100%; max-width: 240px; height: auto; }
-.pl-art path, .pl-art rect { fill: none; stroke: var(--navy); stroke-width: 2; stroke-linejoin: round; }
-.pl-art .soft { stroke: var(--rule-strong); stroke-width: 1.4; }
+.pl-art svg { width: 100%; max-width: 260px; height: auto; }
+.pl-art path, .pl-art rect, .pl-art circle { fill: none; stroke: var(--navy); stroke-width: 1.8; stroke-linejoin: round; }
+.pl-art line { stroke: var(--navy); stroke-width: 1; }
+.pl-art .soft { stroke: var(--rule-strong); stroke-width: 1.2; }
 .pl-art .cl { stroke: var(--rule-strong); stroke-width: 1; stroke-dasharray: 10 4 2 4; }
+.pl-art .solid, .pl-art .bead { fill: #fff; }
 .pl-art .plate { fill: var(--paper-2); }
-.pl-art .brand-area { stroke: var(--red); stroke-width: 1.6; stroke-dasharray: 6 4; fill: rgba(183,58,54,.06); }
+.pl-art .hatch { fill: url(#pl-hatch); }
+.pl-art .wall { stroke-width: 7; stroke-linecap: butt; }
+.pl-art .wall-in { stroke: var(--paper-2); stroke-width: 3.6; stroke-linecap: butt; }
+.pl-art .brand-area { stroke: var(--red); stroke-width: 1.6; stroke-dasharray: 6 4; fill: #fbf3f3; }
+.pl-art .mask { fill: #fff; stroke: none; }
 .pl-art text { font: 600 15px/1 var(--font-mono); letter-spacing: .12em; fill: var(--red-dark); stroke: none; }
+.pl-art .pn { font-size: 10px; fill: var(--ink-3); }
 @media (max-width: 800px) {
   .pl-panel { grid-template-columns: 1fr; gap: 28px; }
   .pl-art { order: -1; }
-  .pl-art svg { max-width: 170px; }
+  .pl-art svg { max-width: 190px; }
 }
 
 /* Route map: Bursa → USA, Canada, Mexico → Elk Grove Village → across the USA.
