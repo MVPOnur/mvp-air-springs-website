@@ -31,7 +31,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-padding-top: 88px; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 88px; scroll-behavior: smooth; }
 body {
   margin: 0;
   background: var(--paper);
@@ -203,25 +203,26 @@ p { margin: 0 0 1em; }
 .on-dark .section-head p { color: var(--on-dark-2); }
 @media (max-width: 800px) { .section-head { grid-template-columns: 1fr; gap: 8px; } }
 
-/* Supply line: Bursa → Elk Grove → Distributor */
-.supply { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--rule); background: #fff; }
-.supply-step { padding: 32px 28px 28px; position: relative; border-right: 1px solid var(--rule); }
-.supply-step:last-child { border-right: 0; }
-.supply-step .num { font: 500 .78rem/1 var(--font-mono); color: var(--ink-3); letter-spacing: .1em; }
-.supply-step h3 { margin: 18px 0 4px; font-size: 1.8rem; text-transform: uppercase; color: var(--navy); }
-.supply-step .place { font: 500 .85rem/1.4 var(--font-mono); color: var(--red); margin-bottom: 14px; text-transform: uppercase; letter-spacing: .06em; }
-.supply-step p { color: var(--ink-2); margin: 0; }
-.supply-step .icon { width: 44px; height: 44px; color: var(--navy); margin-top: 22px; }
-.supply-step:not(:last-child)::after {
-  content: ""; position: absolute; right: -13px; top: 40px; width: 24px; height: 24px; z-index: 1;
-  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b73a36' stroke-width='2.5'%3E%3Cpath d='M9 6l6 6-6 6'/%3E%3C/svg%3E") center/16px no-repeat;
-  border: 1px solid var(--rule); border-radius: 50%;
-}
+/* Private label manufacturing: one quiet panel, copy on the left, drawing on the right */
+.private-label { padding-top: 0; }
+.pl-panel { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); align-items: center; gap: 40px;
+  background: #fff; border: 1px solid var(--rule-strong); padding: clamp(28px, 5vw, 56px); position: relative; }
+.pl-panel::before { content: ""; position: absolute; inset: 6px; border: 1px solid var(--rule); pointer-events: none; }
+.pl-copy { position: relative; }
+.pl-copy h2 { margin-bottom: 16px; }
+.pl-text { color: var(--ink-2); font-size: 1.12rem; max-width: 34em; margin-bottom: 28px; }
+.pl-art { position: relative; display: grid; place-items: center; }
+.pl-art svg { width: 100%; max-width: 240px; height: auto; }
+.pl-art path, .pl-art rect { fill: none; stroke: var(--navy); stroke-width: 2; stroke-linejoin: round; }
+.pl-art .soft { stroke: var(--rule-strong); stroke-width: 1.4; }
+.pl-art .cl { stroke: var(--rule-strong); stroke-width: 1; stroke-dasharray: 10 4 2 4; }
+.pl-art .plate { fill: var(--paper-2); }
+.pl-art .brand-area { stroke: var(--red); stroke-width: 1.6; stroke-dasharray: 6 4; fill: rgba(183,58,54,.06); }
+.pl-art text { font: 600 15px/1 var(--font-mono); letter-spacing: .12em; fill: var(--red-dark); stroke: none; }
 @media (max-width: 800px) {
-  .supply { grid-template-columns: 1fr; }
-  .supply-step { border-right: 0; border-bottom: 1px solid var(--rule); }
-  .supply-step:last-child { border-bottom: 0; }
-  .supply-step:not(:last-child)::after { right: auto; left: 28px; top: auto; bottom: -13px; transform: rotate(90deg); }
+  .pl-panel { grid-template-columns: 1fr; gap: 28px; }
+  .pl-art { order: -1; }
+  .pl-art svg { max-width: 170px; }
 }
 
 /* Route map: Bursa → USA, Canada, Mexico → Elk Grove Village → across the USA.

@@ -29,7 +29,6 @@ window.MVP_CONFIG = {
   facts: {
     founded: "2015",
     warranty: "3 years",
-    leadTime: "[Typical ship time from Elk Grove Village]",
     factoryCapacity: "500,000 / yr",
     factoryCapacityNumber: "500,000",
     productRange: "100+",

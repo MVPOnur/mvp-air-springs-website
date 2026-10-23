@@ -35,11 +35,7 @@ Put drawings in `assets/drawings/` and name each one after the MVP part number, 
 
 ## Placeholders to fill in
 
-Open **`js/config.js`**. Every value in `[square brackets]` appears on the site in a dashed box until you replace it:
-- email, phone and street addresses;
-- typical ship time from Elk Grove Village.
-
-Leave a fact in brackets until it is confirmed.
+Open **`js/config.js`**. Every value in `[square brackets]` appears on the site in a dashed box until you replace it. All current values are confirmed; use brackets for any new fact until it is confirmed.
 
 **Form delivery:** applications go through FormSubmit (`formEndpoint` in `js/config.js`) to sales@mvptruckparts.com, with no account needed:
 - The very first application sends an **"Activate form"** email to that address. Click the link once, and every application after that arrives as an email with the answers in a table.
