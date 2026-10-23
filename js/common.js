@@ -241,6 +241,15 @@
     document.querySelectorAll("[data-fact]").forEach((el) => fill(el, cfg.facts[el.dataset.fact]));
     document.querySelectorAll("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
 
+    // Sections that animate once when they scroll into view.
+    document.querySelectorAll("[data-reveal]").forEach((el) => {
+      if (!("IntersectionObserver" in window)) return;
+      el.classList.add("armed");
+      new IntersectionObserver(([e], obs) => {
+        if (e.isIntersecting) { el.classList.add("in"); obs.disconnect(); }
+      }, { threshold: 0.35 }).observe(el);
+    });
+
     const counts = document.querySelectorAll("[data-product-count]");
     const featured = document.querySelector("[data-catalog][data-limit]");
     if (counts.length || featured) {
