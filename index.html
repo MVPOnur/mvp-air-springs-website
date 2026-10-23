@@ -175,9 +175,20 @@
           <p class="eyebrow">Product range</p>
           <h2 id="range-title">Air springs in the catalog</h2>
         </div>
-        <p><a href="products.html">See all parts and filter by OEM →</a></p>
+        <p><a href="products.html">See all <span data-product-count>86</span> parts and filter by OEM →</a></p>
       </div>
-      <ul class="catalog" data-catalog data-limit="4" aria-label="Featured parts"></ul>
+      <div class="rail" data-rail>
+        <ul class="catalog catalog-rail" data-catalog data-limit="18" aria-label="Featured parts" tabindex="0"></ul>
+        <div class="rail-nav">
+          <button type="button" class="rail-btn" data-rail-prev aria-label="Previous parts">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <button type="button" class="rail-btn" data-rail-next aria-label="More parts">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+          <a class="btn btn-line rail-all" href="products.html">All parts</a>
+        </div>
+      </div>
     </div>
   </section>
 

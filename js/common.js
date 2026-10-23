@@ -92,6 +92,49 @@
     });
   }
 
+  /** Pick parts round-robin across OEMs so a short showcase shows the range. */
+  function mixByOem(products, n) {
+    const groups = new Map();
+    for (const p of products) {
+      const k = p.oem || "";
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k).push(p);
+    }
+    const lists = [...groups.values()].sort((a, b) => b.length - a.length);
+    const out = [];
+    for (let i = 0; out.length < n && lists.some((l) => i < l.length); i++) {
+      for (const l of lists) if (i < l.length && out.length < n) out.push(l[i]);
+    }
+    return out;
+  }
+
+  /** Two-row sideways showcase: arrow buttons page through it, and it swipes on touch. */
+  function setupRail(rail) {
+    if (!rail) return;
+    const track = rail.querySelector(".catalog-rail");
+    const prev = rail.querySelector("[data-rail-prev]");
+    const next = rail.querySelector("[data-rail-next]");
+    const update = () => {
+      const max = track.scrollWidth - track.clientWidth - 2;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max;
+    };
+    // Move by the columns that fit on screen, so each press shows a fresh set.
+    const page = (dir) => {
+      const first = track.children[0];
+      if (!first) return;
+      const step = first.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
+      const cols = Math.max(1, Math.round((track.clientWidth + step - first.getBoundingClientRect().width) / step));
+      const smooth = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+      track.scrollTo({ left: track.scrollLeft + dir * cols * step, behavior: smooth ? "smooth" : "auto" });
+    };
+    prev.addEventListener("click", () => page(-1));
+    next.addEventListener("click", () => page(1));
+    track.addEventListener("scroll", update, { passive: true });
+    new ResizeObserver(update).observe(track);
+    update();
+  }
+
   function dataError(err) {
     console.error(err);
     const hint = location.protocol === "file:"
@@ -133,7 +176,10 @@
     if (counts.length || featured) {
       D.loadProducts().then((products) => {
         counts.forEach((el) => (el.textContent = products.length));
-        if (featured) renderCatalog(featured, products.slice(0, +featured.dataset.limit));
+        if (featured) {
+          renderCatalog(featured, mixByOem(products, +featured.dataset.limit));
+          setupRail(featured.closest("[data-rail]"));
+        }
       }).catch((err) => { if (featured) featured.outerHTML = dataError(err); });
     }
   });
