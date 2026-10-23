@@ -17,6 +17,7 @@
   <script src="js/common.js" defer></script>
   <script src="js/xref.js" defer></script>
   <script src="js/route-map.js" defer></script>
+  <script src="js/lines-drive.js" defer></script>
   <script type="importmap">{ "imports": { "three": "./js/vendor/three/three.module.min.js" } }</script>
   <script type="module" src="js/viewer3d-boot.js"></script>
 </head>
@@ -93,91 +94,22 @@
       </div>
       <ul class="line-cards" data-reveal>
         <li class="line-card" style="--d:0s">
-          <div class="line-art"><svg viewBox="0 0 360 160" aria-hidden="true">
-            <g class="draw">
-              <path d="M4 146h352" pathLength="1"/>
-              <path d="M38 98h300v8H38z" pathLength="1"/>
-              <path d="M12 94h22v14H12z" pathLength="1"/>
-              <path d="M22 98V62q0-6 6-6h64q6 0 8 4l6 10v28" pathLength="1"/>
-              <path d="M22 60h10v36H22zM25.5 63v30M28.5 63v30" pathLength="1"/>
-              <path d="M37 80h10v6H37z" pathLength="1"/>
-              <path d="M106 98V52l8-24q2-4 6-4h32v74" pathLength="1"/>
-              <path d="M109 51l7-21h10v21z" pathLength="1"/>
-              <path d="M130 30h18v22h-18z" pathLength="1"/>
-              <path d="M128 56h22v38h-22zM143 64h5" pathLength="1"/>
-              <path d="M152 98V30q0-4 4-4h48q4 0 4 4v68" pathLength="1"/>
-              <path d="M176 40h18v10h-18z" pathLength="1"/>
-              <path d="M120 24q22-13 52-11h32q4 0 4 4v9" pathLength="1"/>
-              <path d="M210 10h5v88h-5z" pathLength="1"/>
-              <path d="M112 108h44q8 0 8 8v0q0 8-8 8h-44q-8 0-8-8v0q0-8 8-8zM126 108v16M146 108v16" pathLength="1"/>
-              <path d="M240 92h52v6h-52zM262 92v-3h8v3" pathLength="1"/>
-              <path d="M318 106h5v34h-5z" pathLength="1"/>
-              <circle class="tire" cx="70" cy="127" r="19" pathLength="1"/><circle class="tire" cx="70" cy="127" r="11" pathLength="1"/><circle class="tire" cx="70" cy="127" r="3.5" pathLength="1"/>
-              <circle class="tire ghost" cx="246" cy="127" r="19" pathLength="1"/><circle class="tire ghost" cx="246" cy="127" r="11" pathLength="1"/><circle class="tire ghost" cx="246" cy="127" r="3.5" pathLength="1"/>
-              <circle class="tire ghost" cx="288" cy="127" r="19" pathLength="1"/><circle class="tire ghost" cx="288" cy="127" r="11" pathLength="1"/><circle class="tire ghost" cx="288" cy="127" r="3.5" pathLength="1"/>
-            </g>
-            <g class="spring" style="transform-origin:246px 124px"><rect class="plate" x="233.0" y="106" width="26" height="2"/><rect x="235.0" y="108" width="22" height="8.0" rx="3.5"/><rect x="235.0" y="114.0" width="22" height="8.0" rx="3.5"/><rect class="plate" x="233.0" y="122" width="26" height="2"/></g><g class="spring" style="transform-origin:288px 124px"><rect class="plate" x="275.0" y="106" width="26" height="2"/><rect x="277.0" y="108" width="22" height="8.0" rx="3.5"/><rect x="277.0" y="114.0" width="22" height="8.0" rx="3.5"/><rect class="plate" x="275.0" y="122" width="26" height="2"/></g><g class="label"><path d="M238 120L192 136"/><text x="196" y="140" text-anchor="end">AIR SPRINGS</text></g>
+          <div class="line-art"><svg viewBox="0 0 360 160" aria-hidden="true" data-drive="truck">
+            <path class="draw-line" d="M4 146h352" pathLength="1"/><path class="lane" d="M0 153h360"/><g class="stones"></g><g class="draw"><path d="M38 98h300v8H38z" pathLength="1"/><path d="M12 94h22v14H12z" pathLength="1"/><path d="M22 98V62q0-6 6-6h64q6 0 8 4l6 10v28" pathLength="1"/><path d="M22 60h10v36H22zM25.5 63v30M28.5 63v30" pathLength="1"/><path d="M37 80h10v6H37z" pathLength="1"/><path d="M210 10h5v88h-5z" pathLength="1"/><path d="M112 108h44q8 0 8 8v0q0 8-8 8h-44q-8 0-8-8v0q0-8 8-8zM126 108v16M146 108v16" pathLength="1"/><path d="M240 92h52v6h-52zM262 92v-3h8v3" pathLength="1"/><path d="M318 106h5v34h-5z" pathLength="1"/><path d="M106 98V52l8-24q2-4 6-4h32v74" pathLength="1"/><path d="M109 51l7-21h10v21z" pathLength="1"/><path d="M130 30h18v22h-18z" pathLength="1"/><path d="M128 56h22v38h-22zM143 64h5" pathLength="1"/><path d="M152 98V30q0-4 4-4h48q4 0 4 4v68" pathLength="1"/><path d="M176 40h18v10h-18z" pathLength="1"/><path d="M120 24q22-13 52-11h32q4 0 4 4v9" pathLength="1"/></g><g class="axle draw" data-x="70" data-r="19"><circle class="tire" cx="70" cy="127" r="19" pathLength="1"/><g class="spin" style="transform-origin:70px 127px"><circle class="tire" cx="70" cy="127" r="11" pathLength="1"/><path class="tire" d="M70 116v7M70 131v7M59 127h7M74 127h7" pathLength="1"/></g></g><g class="axle draw" data-x="246" data-r="19"><circle class="tire ghost" cx="246" cy="127" r="19" pathLength="1"/><g class="spin" style="transform-origin:246px 127px"><circle class="tire ghost" cx="246" cy="127" r="11" pathLength="1"/><path class="tire ghost" d="M246 116v7M246 131v7M235 127h7M250 127h7" pathLength="1"/></g></g><g class="axle draw" data-x="288" data-r="19"><circle class="tire ghost" cx="288" cy="127" r="19" pathLength="1"/><g class="spin" style="transform-origin:288px 127px"><circle class="tire ghost" cx="288" cy="127" r="11" pathLength="1"/><path class="tire ghost" d="M288 116v7M288 131v7M277 127h7M292 127h7" pathLength="1"/></g></g><g class="spring" data-x="246" data-h="18" style="transform-origin:246px 106px"><rect class="plate" x="233.0" y="106" width="26" height="2"/><rect x="235.0" y="108" width="22" height="8.0" rx="3.5"/><rect x="235.0" y="114.0" width="22" height="8.0" rx="3.5"/><rect class="plate" x="233.0" y="122" width="26" height="2"/></g><g class="spring" data-x="288" data-h="18" style="transform-origin:288px 106px"><rect class="plate" x="275.0" y="106" width="26" height="2"/><rect x="277.0" y="108" width="22" height="8.0" rx="3.5"/><rect x="277.0" y="114.0" width="22" height="8.0" rx="3.5"/><rect class="plate" x="275.0" y="122" width="26" height="2"/></g><g class="label"><path d="M238 120L192 136"/><text x="196" y="140" text-anchor="end">AIR SPRINGS</text></g>
           </svg></div>
           <h3>Truck</h3>
           <p>Air springs for truck and tractor suspensions.</p>
         </li>
         <li class="line-card" style="--d:.35s">
-          <div class="line-art"><svg viewBox="0 0 360 160" aria-hidden="true">
-            <g class="draw">
-              <path d="M4 146h352" pathLength="1"/>
-              <path d="M8 20h344v76H8z" pathLength="1"/>
-              <path d="M8 96h344v6H8z" pathLength="1"/>
-              <path d="M346 24v68M340 24v68" pathLength="1"/>
-              <path d="M30 102v6" pathLength="1"/>
-              <path d="M110 102v36M102 138h16M114 108h6" pathLength="1"/>
-              <path d="M270 102h76v6h-76z" pathLength="1"/>
-              <path d="M32 22v72" pathLength="1" class="rib"/>
-              <path d="M56 22v72" pathLength="1" class="rib"/>
-              <path d="M80 22v72" pathLength="1" class="rib"/>
-              <path d="M104 22v72" pathLength="1" class="rib"/>
-              <path d="M128 22v72" pathLength="1" class="rib"/>
-              <path d="M152 22v72" pathLength="1" class="rib"/>
-              <path d="M176 22v72" pathLength="1" class="rib"/>
-              <path d="M200 22v72" pathLength="1" class="rib"/>
-              <path d="M224 22v72" pathLength="1" class="rib"/>
-              <path d="M248 22v72" pathLength="1" class="rib"/>
-              <path d="M272 22v72" pathLength="1" class="rib"/>
-              <path d="M296 22v72" pathLength="1" class="rib"/>
-              <path d="M320 22v72" pathLength="1" class="rib"/>
-              <circle class="tire ghost" cx="288" cy="127" r="17" pathLength="1"/><circle class="tire ghost" cx="288" cy="127" r="10" pathLength="1"/><circle class="tire ghost" cx="288" cy="127" r="3.5" pathLength="1"/>
-              <circle class="tire ghost" cx="326" cy="127" r="17" pathLength="1"/><circle class="tire ghost" cx="326" cy="127" r="10" pathLength="1"/><circle class="tire ghost" cx="326" cy="127" r="3.5" pathLength="1"/>
-            </g>
-            <g class="spring" style="transform-origin:288px 124px"><rect class="plate" x="275.0" y="108" width="26" height="2"/><rect x="277.0" y="110" width="22" height="7.0" rx="3.0"/><rect x="277.0" y="115.0" width="22" height="7.0" rx="3.0"/><rect class="plate" x="275.0" y="122" width="26" height="2"/></g><g class="spring" style="transform-origin:326px 124px"><rect class="plate" x="313.0" y="108" width="26" height="2"/><rect x="315.0" y="110" width="22" height="7.0" rx="3.0"/><rect x="315.0" y="115.0" width="22" height="7.0" rx="3.0"/><rect class="plate" x="313.0" y="122" width="26" height="2"/></g><g class="label"><path d="M278 120L232 136"/><text x="236" y="140" text-anchor="end">AIR SPRINGS</text></g>
+          <div class="line-art"><svg viewBox="0 0 360 160" aria-hidden="true" data-drive="trailer">
+            <path class="draw-line" d="M4 146h352" pathLength="1"/><path class="lane" d="M0 153h360"/><g class="stones"></g><g class="draw"><path d="M8 20h344v76H8z" pathLength="1"/><path d="M8 96h344v6H8z" pathLength="1"/><path d="M346 24v68M340 24v68" pathLength="1"/><path d="M30 102v6" pathLength="1"/><path d="M110 102v36M102 138h16M114 108h6" pathLength="1"/><path d="M270 102h76v6h-76z" pathLength="1"/><path class="rib" d="M32 22v72" pathLength="1"/><path class="rib" d="M56 22v72" pathLength="1"/><path class="rib" d="M80 22v72" pathLength="1"/><path class="rib" d="M104 22v72" pathLength="1"/><path class="rib" d="M128 22v72" pathLength="1"/><path class="rib" d="M152 22v72" pathLength="1"/><path class="rib" d="M176 22v72" pathLength="1"/><path class="rib" d="M200 22v72" pathLength="1"/><path class="rib" d="M224 22v72" pathLength="1"/><path class="rib" d="M248 22v72" pathLength="1"/><path class="rib" d="M272 22v72" pathLength="1"/><path class="rib" d="M296 22v72" pathLength="1"/><path class="rib" d="M320 22v72" pathLength="1"/></g><g class="axle draw" data-x="288" data-r="17"><circle class="tire ghost" cx="288" cy="127" r="17" pathLength="1"/><g class="spin" style="transform-origin:288px 127px"><circle class="tire ghost" cx="288" cy="127" r="10" pathLength="1"/><path class="tire ghost" d="M288 117v6M288 131v6M278 127h6M292 127h6" pathLength="1"/></g></g><g class="axle draw" data-x="326" data-r="17"><circle class="tire ghost" cx="326" cy="127" r="17" pathLength="1"/><g class="spin" style="transform-origin:326px 127px"><circle class="tire ghost" cx="326" cy="127" r="10" pathLength="1"/><path class="tire ghost" d="M326 117v6M326 131v6M316 127h6M330 127h6" pathLength="1"/></g></g><g class="spring" data-x="288" data-h="16" style="transform-origin:288px 108px"><rect class="plate" x="275.0" y="108" width="26" height="2"/><rect x="277.0" y="110" width="22" height="7.0" rx="3.0"/><rect x="277.0" y="115.0" width="22" height="7.0" rx="3.0"/><rect class="plate" x="275.0" y="122" width="26" height="2"/></g><g class="spring" data-x="326" data-h="16" style="transform-origin:326px 108px"><rect class="plate" x="313.0" y="108" width="26" height="2"/><rect x="315.0" y="110" width="22" height="7.0" rx="3.0"/><rect x="315.0" y="115.0" width="22" height="7.0" rx="3.0"/><rect class="plate" x="313.0" y="122" width="26" height="2"/></g><g class="label"><path d="M278 120L232 136"/><text x="236" y="140" text-anchor="end">AIR SPRINGS</text></g>
           </svg></div>
           <h3>Trailer</h3>
           <p>Air springs for trailer axle suspensions.</p>
         </li>
         <li class="line-card" style="--d:.7s">
-          <div class="line-art"><svg viewBox="0 0 360 160" aria-hidden="true">
-            <g class="draw">
-              <path d="M4 146h352" pathLength="1"/>
-              <path d="M38 98h300v8H38z" pathLength="1"/>
-              <path d="M12 94h22v14H12z" pathLength="1"/>
-              <path d="M22 98V62q0-6 6-6h64q6 0 8 4l6 10v28" pathLength="1"/>
-              <path d="M22 60h10v36H22zM25.5 63v30M28.5 63v30" pathLength="1"/>
-              <path d="M37 80h10v6H37z" pathLength="1"/>
-              <path d="M106 90V52l8-24q2-4 6-4h32v66" pathLength="1"/>
-              <path d="M109 51l7-21h10v21z" pathLength="1"/>
-              <path d="M130 30h18v22h-18z" pathLength="1"/>
-              <path d="M128 56h22v30h-22zM143 64h5" pathLength="1"/>
-              <path d="M152 90V30q0-4 4-4h48q4 0 4 4v60" pathLength="1"/>
-              <path d="M176 40h18v10h-18z" pathLength="1"/>
-              <path d="M120 24q22-13 52-11h32q4 0 4 4v9" pathLength="1"/>
-              <path d="M210 10h5v88h-5z" pathLength="1"/>
-              <path d="M112 108h44q8 0 8 8v0q0 8-8 8h-44q-8 0-8-8v0q0-8 8-8zM126 108v16M146 108v16" pathLength="1"/>
-              <path d="M240 92h52v6h-52zM262 92v-3h8v3" pathLength="1"/>
-              <path d="M318 106h5v34h-5z" pathLength="1"/>
-              <path d="M112 90h8v8h-8z" pathLength="1"/>
-              <circle class="tire" cx="70" cy="127" r="19" pathLength="1"/><circle class="tire" cx="70" cy="127" r="11" pathLength="1"/><circle class="tire" cx="70" cy="127" r="3.5" pathLength="1"/>
-              <circle class="tire" cx="246" cy="127" r="19" pathLength="1"/><circle class="tire" cx="246" cy="127" r="11" pathLength="1"/><circle class="tire" cx="246" cy="127" r="3.5" pathLength="1"/>
-              <circle class="tire" cx="288" cy="127" r="19" pathLength="1"/><circle class="tire" cx="288" cy="127" r="11" pathLength="1"/><circle class="tire" cx="288" cy="127" r="3.5" pathLength="1"/>
-            </g>
-            <g class="spring" style="transform-origin:198px 98px"><rect class="plate" x="188.0" y="90" width="20" height="2"/><rect x="190.0" y="92" width="16" height="3.0" rx="1.0"/><rect x="190.0" y="93.0" width="16" height="3.0" rx="1.0"/><rect class="plate" x="188.0" y="96" width="20" height="2"/></g><g class="zoom"><path class="lead" d="M206 92L277.6 62.4"/><circle cx="300" cy="40" r="32"/><path class="part" d="M276 24h48v6h-48zM276 54h48v7h-48z"/><g class="spring" style="transform-origin:300px 54px"><rect class="plate" x="285.0" y="30" width="30" height="2"/><rect x="287.0" y="32" width="26" height="11.0" rx="5.0"/><rect x="287.0" y="41.0" width="26" height="11.0" rx="5.0"/><rect class="plate" x="285.0" y="52" width="30" height="2"/></g><text x="300" y="84" text-anchor="middle">CAB AIR SPRING</text></g>
+          <div class="line-art"><svg viewBox="0 0 360 160" aria-hidden="true" data-drive="cab">
+            <path class="draw-line" d="M4 146h352" pathLength="1"/><path class="lane" d="M0 153h360"/><g class="stones"></g><g class="chassis"><g class="draw"><path d="M38 98h300v8H38z" pathLength="1"/><path d="M12 94h22v14H12z" pathLength="1"/><path d="M22 98V62q0-6 6-6h64q6 0 8 4l6 10v28" pathLength="1"/><path d="M22 60h10v36H22zM25.5 63v30M28.5 63v30" pathLength="1"/><path d="M37 80h10v6H37z" pathLength="1"/><path d="M210 10h5v88h-5z" pathLength="1"/><path d="M112 108h44q8 0 8 8v0q0 8-8 8h-44q-8 0-8-8v0q0-8 8-8zM126 108v16M146 108v16" pathLength="1"/><path d="M240 92h52v6h-52zM262 92v-3h8v3" pathLength="1"/><path d="M318 106h5v34h-5z" pathLength="1"/><path d="M112 90h8v8h-8z" pathLength="1"/></g><g class="axle draw" data-x="70" data-r="19"><circle class="tire" cx="70" cy="127" r="19" pathLength="1"/><g class="spin" style="transform-origin:70px 127px"><circle class="tire" cx="70" cy="127" r="11" pathLength="1"/><path class="tire" d="M70 116v7M70 131v7M59 127h7M74 127h7" pathLength="1"/></g></g><g class="axle draw" data-x="246" data-r="19"><circle class="tire" cx="246" cy="127" r="19" pathLength="1"/><g class="spin" style="transform-origin:246px 127px"><circle class="tire" cx="246" cy="127" r="11" pathLength="1"/><path class="tire" d="M246 116v7M246 131v7M235 127h7M250 127h7" pathLength="1"/></g></g><g class="axle draw" data-x="288" data-r="19"><circle class="tire" cx="288" cy="127" r="19" pathLength="1"/><g class="spin" style="transform-origin:288px 127px"><circle class="tire" cx="288" cy="127" r="11" pathLength="1"/><path class="tire" d="M288 116v7M288 131v7M277 127h7M292 127h7" pathLength="1"/></g></g></g><g class="draw cabin"><path d="M106 90V52l8-24q2-4 6-4h32v66" pathLength="1"/><path d="M109 51l7-21h10v21z" pathLength="1"/><path d="M130 30h18v22h-18z" pathLength="1"/><path d="M128 56h22v30h-22zM143 64h5" pathLength="1"/><path d="M152 90V30q0-4 4-4h48q4 0 4 4v60" pathLength="1"/><path d="M176 40h18v10h-18z" pathLength="1"/><path d="M120 24q22-13 52-11h32q4 0 4 4v9" pathLength="1"/></g><g class="spring" data-h="8" style="transform-origin:198px 90px"><rect class="plate" x="188.0" y="90" width="20" height="2"/><rect x="190.0" y="92" width="16" height="3.0" rx="1.0"/><rect x="190.0" y="93.0" width="16" height="3.0" rx="1.0"/><rect class="plate" x="188.0" y="96" width="20" height="2"/></g><g class="zoom"><path class="lead" d="M206 92L277.6 62.4"/><circle cx="300" cy="40" r="32"/><path class="part" d="M276 24h48v6h-48z"/><path class="part zoom-frame" d="M276 54h48v7h-48z"/><g class="spring" data-h="24" style="transform-origin:300px 30px"><rect class="plate" x="285.0" y="30" width="30" height="2"/><rect x="287.0" y="32" width="26" height="11.0" rx="5.0"/><rect x="287.0" y="41.0" width="26" height="11.0" rx="5.0"/><rect class="plate" x="285.0" y="52" width="30" height="2"/></g><text x="300" y="84" text-anchor="middle">CAB AIR SPRING</text></g>
           </svg></div>
           <h3>Cab</h3>
           <p>Cab air springs that cushion the driver's cab on the frame.</p>

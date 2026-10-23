@@ -286,7 +286,7 @@ p { margin: 0 0 1em; }
 }
 
 /* Product lines: truck, trailer, cab. Drawings draw themselves once when the
-   section scrolls in, then the red air spring flexes; hover flexes it again. */
+   section scrolls in; then js/lines-drive.js moves the road and works the springs. */
 .lines { padding-bottom: 0; }
 .line-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .line-card { background: #fff; border: 1px solid var(--rule-strong); padding: 22px 22px 24px; position: relative; transition: transform .25s, box-shadow .25s, border-color .25s; }
@@ -295,6 +295,10 @@ p { margin: 0 0 1em; }
 .line-art { aspect-ratio: 360 / 160; margin-bottom: 14px;
   background-image: linear-gradient(var(--paper-2) 1px, transparent 1px), linear-gradient(90deg, var(--paper-2) 1px, transparent 1px); background-size: 16px 16px; }
 .line-art svg { width: 100%; height: 100%; overflow: visible; }
+.line-art .lane { stroke: var(--rule-strong); stroke-width: 1.4; stroke-dasharray: 12 10; fill: none; }
+.line-art .stones path { fill: var(--ink-3); }
+.line-art .draw-line { fill: none; stroke: var(--navy); stroke-width: 1.6; }
+.line-art .axle, .line-art .chassis, .line-art .zoom-frame { transform-box: view-box; }
 .line-art .draw * { fill: none; stroke: var(--navy); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
 .line-art .draw .rib { stroke: var(--rule-strong); stroke-width: 1; }
 .line-art .draw .ghost { stroke: var(--rule-strong); }
@@ -311,16 +315,12 @@ p { margin: 0 0 1em; }
 
 /* animation states (only when motion is allowed and JS has armed the section) */
 @media (prefers-reduced-motion: no-preference) {
-  .line-cards.armed .draw * { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .line-cards.armed .draw *, .line-cards.armed .draw-line { stroke-dasharray: 1; stroke-dashoffset: 1; }
   .line-cards.armed .spring, .line-cards.armed .label, .line-cards.armed .zoom { opacity: 0; }
-  .line-cards.in .draw * { transition: stroke-dashoffset 1.4s cubic-bezier(.45,0,.25,1) var(--d); stroke-dashoffset: 0; }
-  .line-cards.in .spring { opacity: 1; transition: opacity .3s calc(var(--d) + 1.2s); animation: flex .7s ease-in-out calc(var(--d) + 1.4s) 1; }
+  .line-cards.in .draw *, .line-cards.in .draw-line { transition: stroke-dashoffset 1.4s cubic-bezier(.45,0,.25,1) var(--d); stroke-dashoffset: 0; }
+  .line-cards.in .spring { opacity: 1; transition: opacity .3s calc(var(--d) + 1.2s); }
   .line-cards.in .label, .line-cards.in .zoom { opacity: 1; transition: opacity .5s calc(var(--d) + 1.5s); }
-  .line-cards.in .zoom .spring { animation-delay: calc(var(--d) + 1.9s); }
-  .line-cards.in .line-card:hover .spring { animation: flex2 .7s ease-in-out 1; }
 }
-@keyframes flex { 0%, 100% { transform: scaleY(1); } 40% { transform: scaleY(.62); } 70% { transform: scaleY(1.08); } }
-@keyframes flex2 { 0%, 100% { transform: scaleY(1); } 40% { transform: scaleY(.62); } 70% { transform: scaleY(1.08); } }
 
 /* Fact sheet: spec-table style list of claims */
 .facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 2px solid var(--navy); }
