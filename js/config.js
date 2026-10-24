@@ -24,7 +24,7 @@ window.MVP_CONFIG = {
   // Photos, relative to the site root. Leave empty until the photo is in
   // assets/; the page shows a dashed "Photo to be added" frame meanwhile.
   photos: {
-    factory: "", // About page, next to the intro (e.g. "assets/factory.webp")
+    factory: "assets/factory.webp", // About page, next to the intro: frame from the factory video
   },
 
   // Parts that have a 3D model (js/models3d.js + assets/3d/). Their product

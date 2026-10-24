@@ -40,7 +40,7 @@ Put drawings in `assets/drawings/` and name each one after the MVP part number, 
 
 Open **`js/config.js`**. Every value in `[square brackets]` appears on the site in a dashed box until you replace it. All current values are confirmed; use brackets for any new fact until it is confirmed.
 
-**Photos:** `photos` in `js/config.js` points to photos in `assets/`. While a path is empty the page shows a dashed "Photo to be added" frame (the About page factory photo is still to come).
+**Photos:** `photos` in `js/config.js` points to photos in `assets/`. While a path is empty the page shows a dashed "Photo to be added" frame (the About page factory photo, `assets/factory.webp`, is a frame from the factory video).
 
 **Form delivery:** applications go through FormSubmit (`formEndpoint` in `js/config.js`) to sales@mvptruckparts.com, with no account needed:
 - The very first application sends an **"Activate form"** email to that address. Click the link once, and every application after that arrives as an email with the answers in a table.
