@@ -3,7 +3,7 @@
 (function () {
   "use strict";
   // How long each stage stays before the next one; after stage 4 it zooms back out to 1.
-  const STEP_MS = { 1: 1300, 2: 3300, 3: 3200, 4: 4500 };
+  const STEP_MS = { 1: 500, 2: 3300, 3: 3200, 4: 4500 };
 
   document.addEventListener("DOMContentLoaded", () => {
     const fig = document.querySelector("[data-route-map]");
