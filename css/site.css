@@ -255,9 +255,10 @@ p { margin: 0 0 1em; }
 }
 
 /* ---------- Sections ---------- */
-.section { padding: clamp(64px, 9vw, 112px) 0; }
-.section-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: end; margin-bottom: 48px; }
-.section-head p { color: var(--ink-2); font-size: 1.1rem; margin: 0; }
+.section { padding: clamp(48px, 6vw, 80px) 0; }
+/* Heading and intro side by side, the intro centred on the heading. */
+.section-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: center; margin-bottom: 40px; }
+.section-head p { color: var(--ink-2); font-size: 1.15rem; max-width: 34em; margin: 0; }
 .on-dark .section-head p { color: var(--on-dark-2); }
 @media (max-width: 800px) { .section-head { grid-template-columns: 1fr; gap: 8px; } }
 
@@ -378,10 +379,6 @@ p { margin: 0 0 1em; }
    called out. The drawing draws itself in once; js/lines-drive.js then rolls it
    over potholes, and the pick cards below highlight a product line on the rig. */
 .lines { padding-top: clamp(40px, 5vw, 64px); padding-bottom: 0; }
-.supply { padding-top: clamp(48px, 6vw, 72px); }
-/* Heading and intro side by side, the intro centred on the heading. */
-.section-head.head-center { align-items: center; }
-.head-center > p { font-size: 1.15rem; max-width: 34em; }
 .rig { background: #fff; border: 1px solid var(--rule-strong); position: relative; }
 .rig::before { content: ""; position: absolute; inset: 6px; border: 1px solid var(--rule); pointer-events: none; z-index: 1; }
 .rig-stage { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; padding: 18px 16px 10px;
@@ -533,7 +530,7 @@ p { margin: 0 0 1em; }
 .mv-text { font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.45; font-weight: 500; color: var(--navy); margin: 0; }
 @media (max-width: 700px) { .mv { grid-template-columns: 1fr; } }
 .values .pillar-value { font-size: clamp(2.1rem, 3.6vw, 2.8rem); }
-.pl-about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px clamp(32px, 6vw, 80px); align-items: start; }
+.pl-about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px clamp(32px, 6vw, 80px); align-items: center; }
 .pl-about-text { color: var(--ink-2); font-size: 1.12rem; margin: 0 0 12px; }
 .pl-about .num-list { margin: 0; }
 @media (max-width: 800px) { .pl-about { grid-template-columns: 1fr; } }
@@ -627,7 +624,7 @@ legend { font: 700 1.3rem/1 var(--font-display); text-transform: uppercase; lett
 .success h2 { color: var(--navy); }
 
 /* ---------- CTA band ---------- */
-.cta-band { padding: clamp(56px, 8vw, 88px) 0; }
+.cta-band { padding: clamp(44px, 6vw, 64px) 0; }
 .cta-band .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 28px; }
 .cta-band h2 { margin: 0 0 8px; }
 .cta-band p { margin: 0; color: var(--on-dark-2); max-width: 36em; }
