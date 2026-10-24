@@ -368,7 +368,7 @@ p { margin: 0 0 1em; }
 .rig::before { content: ""; position: absolute; inset: 6px; border: 1px solid var(--rule); pointer-events: none; z-index: 1; }
 .rig-stage { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; padding: 18px 16px 10px;
   background-image: linear-gradient(var(--paper-2) 1px, transparent 1px), linear-gradient(90deg, var(--paper-2) 1px, transparent 1px); background-size: 16px 16px; }
-.rig-stage svg { display: block; width: 100%; min-width: 680px; height: auto; overflow: visible; }
+.rig-stage svg { display: block; width: 100%; height: auto; overflow: visible; }
 .rig .draw * { fill: none; stroke: var(--navy); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
 .rig .draw .rib { stroke: var(--rule-strong); stroke-width: 1; }
 .rig .draw .ghost { stroke: var(--rule-strong); }
@@ -390,8 +390,19 @@ p { margin: 0 0 1em; }
 .rig svg[data-show="cab"] .callout[data-group="cab"] text, .rig svg[data-show="truck"] .callout[data-group="truck"] text, .rig svg[data-show="trailer"] .callout[data-group="trailer"] text { fill: #fff; }
 .rig svg[data-show="cab"] .spring[data-group="cab"] .lobe, .rig svg[data-show="truck"] .spring[data-group="truck"] .lobe, .rig svg[data-show="trailer"] .spring[data-group="trailer"] .lobe { fill: #e0524c; filter: drop-shadow(0 0 3px rgba(183,58,54,.9)); }
 
-.rig-hint { display: none; margin: 0; padding: 12px 16px 0; font: 500 .75rem/1 var(--font-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); position: relative; z-index: 2; }
-@media (max-width: 720px) { .rig-hint { display: block; } }
+/* Phones: the whole rig fits the width. The drawing's own labels would be too small
+   there, so short HTML labels sit where its pills are (x from the pill centres,
+   just under the road, via container width units). */
+.rig-labels { display: none; }
+@media (max-width: 720px) {
+  .rig-stage { overflow: visible; padding: 14px 10px 18px; container-type: inline-size; position: relative; }
+  .rig .callout .pill, .rig .callout text { display: none; }
+  .rig-labels { display: block; position: absolute; left: 10px; right: 10px; top: calc(14px + (100cqw - 20px) * 0.2722 * 0.97); height: 0; }
+  .rig-label { position: absolute; left: var(--x); transform: translate(-50%, -50%); padding: 3px 8px; border: 1px solid var(--red); border-radius: 999px; background: #fff;
+    font: 600 .64rem/1 var(--font-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--red-dark); white-space: nowrap; transition: background-color .2s, color .2s, opacity .25s; }
+  .rig:has(svg[data-show]) .rig-label { opacity: .4; }
+  .rig:has(svg[data-show="cab"]) .rig-label[data-group="cab"], .rig:has(svg[data-show="truck"]) .rig-label[data-group="truck"], .rig:has(svg[data-show="trailer"]) .rig-label[data-group="trailer"] { opacity: 1; background: var(--red); color: #fff; }
+}
 .line-picks { list-style: none; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .pick { width: 100%; height: 100%; display: flex; flex-direction: column; text-align: left; cursor: pointer;
   background: #fff; border: 1px solid var(--rule-strong); border-radius: var(--radius); padding: 14px 14px 18px; color: var(--ink); font: inherit;
@@ -416,6 +427,8 @@ p { margin: 0 0 1em; }
   .rig.in .draw *, .rig.in .road { transition: stroke-dashoffset 1.2s cubic-bezier(.45,0,.25,1); stroke-dashoffset: 0; }
   .rig.in .spring { opacity: 1; transition: opacity .4s 1s; }
   .rig.in .callout { opacity: 1; transition: opacity .5s 1.2s; }
+  .rig.armed .rig-label { opacity: 0; }
+  .rig.in .rig-label { opacity: 1; transition: opacity .5s 1.2s; }
 }
 
 /* Why MVP Air Springs: six manufacturer facts as big figures */
