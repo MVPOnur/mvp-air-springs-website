@@ -287,26 +287,17 @@ p { margin: 0 0 1em; }
   .pl-art svg { max-width: 190px; }
 }
 
-/* What goes into an MVP air spring: cutaway with round close-ups on a transparent image,
-   straight on the page; rings, leaders and numbers are drawn over it so they stay sharp. */
+/* Engineered for heavy-duty performance: Onur's cutaway (numbers and leaders are
+   in the image, background cut away) beside the matching numbered list. */
 .marking { padding-top: 0; }
 .mk-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(28px, 5vw, 72px); }
 .mk-figure { margin: 0; }
-.mk-photo { position: relative; }
-.mk-photo img { width: 100%; height: auto; display: block; }
-.mk-leaders { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.mk-leaders * { fill: none; vector-effect: non-scaling-stroke; }
-.mk-leaders .mk-roundel { stroke: var(--navy); stroke-width: 2.5; }
-.mk-leaders .mk-zoom { stroke: var(--red); stroke-width: 2.5; }
-.mk-leaders .mk-line { stroke: var(--red); stroke-width: 1.5; }
-.mk-leaders .mk-end { fill: var(--red); stroke: #fff; stroke-width: 1.5; }
-.mk-dot { position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%); width: 28px; height: 28px;
-  display: grid; place-items: center; border-radius: 50%; background: var(--red); color: #fff; border: 2px solid #fff;
-  box-shadow: 0 1px 3px rgba(11,22,56,.3); font: 700 .95rem/1 var(--font-display); }
+.mk-figure img { width: 100%; height: auto; display: block; }
+.mk-copy h2 { margin-bottom: 14px; }
+.nowrap { white-space: nowrap; }
 .mk-text { color: var(--ink-2); font-size: 1.12rem; max-width: 34em; margin: 0 0 12px; }
 .mk-copy .num-list { margin-bottom: 28px; }
 @media (max-width: 800px) { .mk-grid { grid-template-columns: 1fr; } }
-@media (max-width: 560px) { .mk-dot { width: 24px; height: 24px; font-size: .85rem; } }
 
 /* Route map: Bursa → USA, Canada, Mexico → Elk Grove Village → across the USA.
    Stages are cumulative classes s1…s4 set by js/route-map.js. */

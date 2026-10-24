@@ -27,7 +27,7 @@ Static marketing site for MVP Air Springs (heavy-duty truck and trailer air spri
   - Product page tabs appear for parts listed in `models3d` in `js/config.js`.
 - **Hero video:** factory footage in `assets/video/` (720p for desktop, 480p for phones, WebM + MP4, poster frame), started by `js/hero-video.js`; reduced motion and Save-Data keep the poster. Encode new footage small (24 fps, no audio): it sits under a navy film.
 - **About page:** `about.html`. The factory photo slot reads `photos.factory` in `js/config.js`.
-- **"What goes into an MVP air spring":** `assets/inside-air-spring.webp` is Onur's cutaway illustration, cleaned and laid out on a transparent canvas; the rings, leaders and numbers are SVG/HTML in `index.html`. Its list holds only facts Onur confirmed (molded part number, 4.5–5.0 mm rubber, 4140 studs, leak test, 3-year warranty).
+- **"Engineered for heavy-duty performance":** `assets/engineered-air-spring.webp` is Onur's own image (numbers and leaders included), with its background cut away; the list beside it uses his wording exactly.
 - **Live preview:** GitHub Pages serves `main` at https://mvponur.github.io/mvp-air-springs-website/ (keep all paths relative).
 
 ## Checks before pushing
