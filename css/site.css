@@ -184,7 +184,8 @@ p { margin: 0 0 1em; }
   background: radial-gradient(closest-side, rgba(143,160,216,.28), rgba(143,160,216,.08) 60%, transparent 100%); }
 .v3d-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .6s; cursor: grab; touch-action: pan-y; }
 .v3d-stage canvas:active { cursor: grabbing; }
-.v3d-fallback { position: absolute; inset: 12%; width: 76%; height: auto; border-radius: 50%; transition: opacity .6s; }
+/* Still of the model's opening view, shown until WebGL is ready, so the swap is invisible. */
+.v3d-fallback { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: opacity .6s; }
 .viewer3d.ready canvas { opacity: 1; }
 .viewer3d.ready .v3d-fallback { opacity: 0; }
 .viewer3d figcaption { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-top: 8px;
