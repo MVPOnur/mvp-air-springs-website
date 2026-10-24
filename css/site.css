@@ -377,7 +377,10 @@ p { margin: 0 0 1em; }
 /* Product lines: one tractor-trailer with the cab, truck and trailer air springs
    called out. The drawing draws itself in once; js/lines-drive.js then rolls it
    over potholes, and the pick cards below highlight a product line on the rig. */
-.lines { padding-bottom: 0; }
+.lines { padding-top: clamp(40px, 5vw, 64px); padding-bottom: 0; }
+/* Heading and intro side by side, the intro centred on the heading. */
+.section-head.head-center { align-items: center; }
+.head-center > p { font-size: 1.15rem; max-width: 34em; }
 .rig { background: #fff; border: 1px solid var(--rule-strong); position: relative; }
 .rig::before { content: ""; position: absolute; inset: 6px; border: 1px solid var(--rule); pointer-events: none; z-index: 1; }
 .rig-stage { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; padding: 18px 16px 10px;
@@ -427,9 +430,9 @@ p { margin: 0 0 1em; }
 @media (prefers-reduced-motion: no-preference) {
   .rig.armed .draw *, .rig.armed .road { stroke-dasharray: 1; stroke-dashoffset: 1; }
   .rig.armed .spring, .rig.armed .callout { opacity: 0; }
-  .rig.in .draw *, .rig.in .road { transition: stroke-dashoffset 1.8s cubic-bezier(.45,0,.25,1); stroke-dashoffset: 0; }
-  .rig.in .spring { opacity: 1; transition: opacity .4s 1.6s; }
-  .rig.in .callout { opacity: 1; transition: opacity .5s 1.9s; }
+  .rig.in .draw *, .rig.in .road { transition: stroke-dashoffset 1.2s cubic-bezier(.45,0,.25,1); stroke-dashoffset: 0; }
+  .rig.in .spring { opacity: 1; transition: opacity .4s 1s; }
+  .rig.in .callout { opacity: 1; transition: opacity .5s 1.2s; }
 }
 
 /* Why MVP Air Springs: six manufacturer facts as big figures */

@@ -2,8 +2,8 @@
 // along. A wheel that drops into one pulls its air spring longer while the body
 // above stays level. When the steer wheel drops, the chassis dips and the cab
 // air spring keeps the cab still. The pick cards light up a product line on the rig.
-// Driving starts after the draw-in, runs only on screen, pauses on hover, and is
-// off for reduced motion (picking still works).
+// Driving starts as the drawing finishes, runs only while it is on screen (also
+// under the pointer), and is off for reduced motion (picking still works).
 (function () {
   "use strict";
   const SPEED = 52;         // road speed, drawing units per second
@@ -124,26 +124,24 @@
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const step = setupDrive(svg);
-    let visible = false, started = false, hover = false, last = 0, raf = 0;
+    let visible = false, started = false, last = 0, raf = 0;
     function frame(t) {
       raf = requestAnimationFrame(frame);
       const dt = last ? Math.min((t - last) / 1000, 0.05) : 0;
       last = t;
-      if (!hover) step(dt);
+      step(dt);
     }
     function sync() {
       cancelAnimationFrame(raf);
       last = 0;
       if (visible && started && !document.hidden) raf = requestAnimationFrame(frame);
     }
-    stage.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") hover = true; });
-    stage.addEventListener("pointerleave", () => { hover = false; });
     new IntersectionObserver(([e]) => {
       visible = e.isIntersecting;
-      // let the draw-in finish the first time before the road starts moving
-      if (visible && !started) setTimeout(() => { started = true; sync(); }, 3000);
+      // the road starts moving as the draw-in (1.2 s) finishes
+      if (visible && !started) setTimeout(() => { started = true; sync(); }, 1000);
       sync();
-    }, { threshold: 0.2 }).observe(rig);
+    }, { threshold: 0.35 }).observe(rig); // same as the draw-in reveal
     document.addEventListener("visibilitychange", sync);
   });
 })();
