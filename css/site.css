@@ -105,6 +105,19 @@ p { margin: 0 0 1em; }
 .nav a:not(.btn):hover { color: var(--navy); border-bottom-color: var(--rule-strong); }
 .nav a[aria-current="page"] { color: var(--navy); border-bottom-color: var(--red); }
 .nav .btn { margin-left: 10px; min-height: 44px; }
+/* Home page: the header sits on the hero video, transparent at the top and
+   deep navy once the page scrolls (js/common.js adds .scrolled). The sticker
+   logo has a white outline, so it reads on the video too. */
+:root { --header-h: 73px; }
+.site-header.over-video { background: transparent; border-bottom-color: transparent; transition: background-color .3s, box-shadow .3s; }
+.site-header.over-video.scrolled, .site-header.over-video:has(.nav.open) { background: rgba(11,22,56,.94); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: 0 1px 0 rgba(255,255,255,.08); }
+.over-video .brand { color: #fff; }
+.over-video .brand-name { border-left-color: rgba(255,255,255,.25); }
+.over-video .brand-name small { color: var(--on-dark-2); }
+.over-video .nav a:not(.btn) { color: var(--on-dark); }
+.over-video .nav a:not(.btn):hover { color: #fff; border-bottom-color: rgba(255,255,255,.45); }
+.over-video .nav-toggle { background: transparent; border-color: rgba(255,255,255,.45); color: #fff; }
+.hero.under-header { margin-top: calc(-1 * var(--header-h)); padding-top: calc(clamp(56px, 9vw, 112px) + var(--header-h)); }
 .nav-toggle { display: none; margin-left: auto; width: 48px; height: 48px; border: 1px solid var(--rule); background: #fff; border-radius: var(--radius); cursor: pointer; color: var(--navy); }
 .nav-toggle svg { margin: auto; }
 
@@ -119,6 +132,8 @@ p { margin: 0 0 1em; }
   .nav a:not(.btn) { padding: 16px 4px; border-bottom: 1px solid var(--rule); }
   .nav a[aria-current="page"] { border-bottom-color: var(--rule); box-shadow: inset 3px 0 0 var(--red); padding-left: 12px; }
   .nav .btn { margin: 16px 0 0; }
+  .over-video .nav { background: var(--navy-deep); border-bottom-color: rgba(255,255,255,.12); }
+  .over-video .nav a:not(.btn) { border-bottom-color: rgba(255,255,255,.12); }
 }
 
 /* ---------- Dark "blueprint" sections ---------- */
@@ -146,8 +161,9 @@ p { margin: 0 0 1em; }
 .hero-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .hero-video::after { content: ""; position: absolute; inset: 0;
   background-image: linear-gradient(var(--grid-dark) 1px, transparent 1px), linear-gradient(90deg, var(--grid-dark) 1px, transparent 1px),
+    linear-gradient(rgba(11,22,56,.55), rgba(11,22,56,0) 180px),
     linear-gradient(90deg, rgba(11,22,56,.88), rgba(11,22,56,.82) 50%, rgba(11,22,56,.6));
-  background-size: 32px 32px, 32px 32px, auto; }
+  background-size: 32px 32px, 32px 32px, auto, auto; }
 .hero .wrap { position: relative; z-index: 1; }
 .hero-video-toggle { position: absolute; right: 16px; bottom: 16px; z-index: 2; width: 44px; height: 44px; display: grid; place-items: center;
   border-radius: 50%; border: 1px solid rgba(255,255,255,.45); background: rgba(11,22,56,.6); color: #fff; cursor: pointer; }

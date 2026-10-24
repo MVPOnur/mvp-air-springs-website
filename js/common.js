@@ -245,6 +245,13 @@
         }
       });
     }
+    // A header that sits on the hero video turns solid once the page scrolls.
+    const overVideo = document.querySelector(".site-header.over-video");
+    if (overVideo) {
+      const onScroll = () => overVideo.classList.toggle("scrolled", window.scrollY > 8);
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
     // Current page in the menu
     const page = location.pathname.split("/").pop() || "index.html";
     document.querySelectorAll(".nav a").forEach((a) => {

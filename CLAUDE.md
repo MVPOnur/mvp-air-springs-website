@@ -10,7 +10,7 @@ Static marketing site for MVP Air Springs (heavy-duty truck and trailer air spri
 - **Don't invent facts.** Capacity, certifications, years, warranty and shipping countries come only from Onur or the MVP catalog. Anything not yet confirmed stays a `[bracketed]` placeholder in `js/config.js`, which shows as a dashed box on the site.
 - **Cross-reference numbers must be verified.** Numbers found online are not added to the live CSV until Onur approves them.
 - **Footer disclaimer stays:** competitor brand names are trademarks of their owners, and part numbers are for cross-reference only.
-- **Brand colors are fixed:** navy `#13235B`, deep navy `#0B1638`, red `#B73A36`, blue `#3F5195`. No orange. The logo (`assets/logo-mvp-air-springs.png`, web copy `assets/logo.webp`) only goes on light backgrounds.
+- **Brand colors are fixed:** navy `#13235B`, deep navy `#0B1638`, red `#B73A36`, blue `#3F5195`. No orange. The logo (`assets/logo-mvp-air-springs.png`, web copy `assets/logo.webp`) is the sticker version: a white outline and a white circle behind the truck, so it reads on light backgrounds and on the home page header over the video (Onur, 2026-10-24). Never put a version without that white outline on a dark background.
 - **Keep it a static site** with no build step and no framework, so any host can serve it.
 
 ## Where things are
