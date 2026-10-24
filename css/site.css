@@ -378,6 +378,7 @@ p { margin: 0 0 1em; }
    called out. The drawing draws itself in once; js/lines-drive.js then rolls it
    over potholes, and the pick cards below highlight a product line on the rig. */
 .lines { padding-top: clamp(40px, 5vw, 64px); padding-bottom: 0; }
+.supply { padding-top: clamp(48px, 6vw, 72px); }
 /* Heading and intro side by side, the intro centred on the heading. */
 .section-head.head-center { align-items: center; }
 .head-center > p { font-size: 1.15rem; max-width: 34em; }

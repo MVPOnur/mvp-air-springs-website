@@ -3,7 +3,7 @@
 (function () {
   "use strict";
   // How long each stage stays before the next one; after stage 4 it zooms back out to 1.
-  const STEP_MS = { 1: 2200, 2: 3300, 3: 3200, 4: 4500 };
+  const STEP_MS = { 1: 1900, 2: 3300, 3: 3200, 4: 4500 };
 
   document.addEventListener("DOMContentLoaded", () => {
     const fig = document.querySelector("[data-route-map]");
@@ -31,7 +31,7 @@
       timer = setTimeout(() => {
         show(stage >= 4 ? 1 : stage + 1);
         schedule();
-      }, STEP_MS[stage] || 400);
+      }, STEP_MS[stage] || 0); // stage 0: start right away
     }
 
     buttons.forEach((b) => b.addEventListener("click", () => { show(+b.dataset.step); schedule(); }));
@@ -48,7 +48,7 @@
         new IntersectionObserver(([e]) => {
           visible = e.isIntersecting;
           if (visible) schedule(); else clearTimeout(timer);
-        }, { threshold: 0.25 }).observe(fig);
+        }, { threshold: 0.15 }).observe(fig);
       })
       .catch((err) => { console.error(err); holder.hidden = true; });
   });
