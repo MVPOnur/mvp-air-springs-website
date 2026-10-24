@@ -10,6 +10,7 @@
     const saveData = navigator.connection && navigator.connection.saveData;
     if (matchMedia("(prefers-reduced-motion: reduce)").matches || saveData) return;
 
+    const VERSION = 2; // bump when the footage is replaced, so cached copies are not reused
     const size = matchMedia("(max-width: 700px)").matches ? "480" : "720";
     let paused = false, visible = false, loaded = false;
 
@@ -18,7 +19,7 @@
       loaded = true;
       for (const [ext, type] of [["webm", "video/webm"], ["mp4", "video/mp4"]]) {
         const source = document.createElement("source");
-        source.src = `assets/video/factory-${size}.${ext}`;
+        source.src = `assets/video/factory-${size}.${ext}?v=${VERSION}`;
         source.type = type;
         video.appendChild(source);
       }
