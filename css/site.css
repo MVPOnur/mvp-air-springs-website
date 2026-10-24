@@ -87,38 +87,34 @@ p { margin: 0 0 1em; }
 .on-dark .btn-line { border-color: var(--on-dark-2); color: #fff; }
 .on-dark .btn-line:hover { background: #fff; color: var(--navy); border-color: #fff; }
 
-/* ---------- Header ---------- */
-.site-header { position: sticky; top: 0; z-index: 50; background: var(--white); border-bottom: 1px solid var(--rule); }
+/* ---------- Header ----------
+   Deep navy with white text on every page. The sticker logo has a white
+   outline, so it reads on the dark bar. On the home page the bar starts
+   transparent over the hero video and turns navy once the page scrolls
+   (js/common.js adds .scrolled). */
+:root { --header-h: 73px; }
+.site-header { position: sticky; top: 0; z-index: 50; background: var(--navy-deep); border-bottom: 1px solid rgba(255,255,255,.08); }
 .site-header .wrap { display: flex; align-items: center; gap: 24px; min-height: 72px; }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--navy); flex: none; }
+.site-header .brand { color: #fff; }
 .brand img { height: 56px; width: auto; }
-.brand-name { font: 700 1.2rem/1 var(--font-display); text-transform: uppercase; letter-spacing: .04em; border-left: 1px solid var(--rule); padding-left: 12px; }
-.brand-name small { display: block; font: 500 .66rem/1.4 var(--font-mono); color: var(--ink-3); letter-spacing: .08em; }
+.brand-name { font: 700 1.2rem/1 var(--font-display); text-transform: uppercase; letter-spacing: .04em; border-left: 1px solid rgba(255,255,255,.25); padding-left: 12px; }
+.brand-name small { display: block; font: 500 .66rem/1.4 var(--font-mono); color: var(--on-dark-2); letter-spacing: .08em; }
 .nav { margin-left: auto; display: flex; align-items: center; gap: 4px; }
 .nav a { white-space: nowrap; }
 /* the brand line gives way to the menu before the menu has to wrap */
 @media (max-width: 1180px) { .brand-name { display: none; } }
 .nav a:not(.btn) {
   font: 600 1rem/1 var(--font-display); text-transform: uppercase; letter-spacing: .06em;
-  color: var(--ink-2); text-decoration: none; padding: 14px 12px; border-bottom: 2px solid transparent;
+  color: var(--on-dark); text-decoration: none; padding: 14px 12px; border-bottom: 2px solid transparent;
 }
-.nav a:not(.btn):hover { color: var(--navy); border-bottom-color: var(--rule-strong); }
-.nav a[aria-current="page"] { color: var(--navy); border-bottom-color: var(--red); }
+.nav a:not(.btn):hover { color: #fff; border-bottom-color: rgba(255,255,255,.45); }
+.nav a[aria-current="page"] { color: #fff; border-bottom-color: var(--red); }
 .nav .btn { margin-left: 10px; min-height: 44px; }
-/* Home page: the header sits on the hero video, transparent at the top and
-   deep navy once the page scrolls (js/common.js adds .scrolled). The sticker
-   logo has a white outline, so it reads on the video too. */
-:root { --header-h: 73px; }
 .site-header.over-video { background: transparent; border-bottom-color: transparent; transition: background-color .3s, box-shadow .3s; }
 .site-header.over-video.scrolled, .site-header.over-video:has(.nav.open) { background: rgba(11,22,56,.94); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: 0 1px 0 rgba(255,255,255,.08); }
-.over-video .brand { color: #fff; }
-.over-video .brand-name { border-left-color: rgba(255,255,255,.25); }
-.over-video .brand-name small { color: var(--on-dark-2); }
-.over-video .nav a:not(.btn) { color: var(--on-dark); }
-.over-video .nav a:not(.btn):hover { color: #fff; border-bottom-color: rgba(255,255,255,.45); }
-.over-video .nav-toggle { background: transparent; border-color: rgba(255,255,255,.45); color: #fff; }
 .hero.under-header { margin-top: calc(-1 * var(--header-h)); padding-top: calc(clamp(28px, 3.5vw, 48px) + var(--header-h)); }
-.nav-toggle { display: none; margin-left: auto; width: 48px; height: 48px; border: 1px solid var(--rule); background: #fff; border-radius: var(--radius); cursor: pointer; color: var(--navy); }
+.nav-toggle { display: none; margin-left: auto; width: 48px; height: 48px; border: 1px solid rgba(255,255,255,.45); background: transparent; border-radius: var(--radius); cursor: pointer; color: #fff; }
 .nav-toggle svg { margin: auto; }
 
 @media (max-width: 900px) {
@@ -126,14 +122,12 @@ p { margin: 0 0 1em; }
   .nav-toggle { display: grid; }
   .nav {
     position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; align-items: stretch; gap: 0;
-    background: #fff; border-bottom: 1px solid var(--rule); padding: 8px var(--gutter) 20px; display: none;
+    background: var(--navy-deep); border-bottom: 1px solid rgba(255,255,255,.12); padding: 8px var(--gutter) 20px; display: none;
   }
   .nav.open { display: flex; }
-  .nav a:not(.btn) { padding: 16px 4px; border-bottom: 1px solid var(--rule); }
-  .nav a[aria-current="page"] { border-bottom-color: var(--rule); box-shadow: inset 3px 0 0 var(--red); padding-left: 12px; }
+  .nav a:not(.btn) { padding: 16px 4px; border-bottom: 1px solid rgba(255,255,255,.12); }
+  .nav a[aria-current="page"] { border-bottom-color: rgba(255,255,255,.12); box-shadow: inset 3px 0 0 var(--red); padding-left: 12px; }
   .nav .btn { margin: 16px 0 0; }
-  .over-video .nav { background: var(--navy-deep); border-bottom-color: rgba(255,255,255,.12); }
-  .over-video .nav a:not(.btn) { border-bottom-color: rgba(255,255,255,.12); }
 }
 
 /* ---------- Dark "blueprint" sections ---------- */
