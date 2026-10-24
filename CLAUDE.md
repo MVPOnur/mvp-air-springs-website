@@ -35,3 +35,5 @@ Static marketing site for MVP Air Springs (heavy-duty truck and trailer air spri
 2. Open it at 390 px and at 1440 px wide.
 3. Confirm there are no console errors and no horizontal scroll.
 4. Confirm the search finds parts by Firestone, Goodyear and ContiTech number.
+5. Confirm `css/site.css` braces balance (an unclosed `@media` silently drops every rule after it on desktop).
+6. All pages share one `?v=` tag on their css/js links; bump it on every page together.

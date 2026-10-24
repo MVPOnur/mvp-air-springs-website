@@ -515,7 +515,7 @@ p { margin: 0 0 1em; }
 .mv-text { font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.45; font-weight: 500; color: var(--navy); margin: 0; }
 @media (max-width: 700px) { .mv { grid-template-columns: 1fr; } }
 .values .pillar-value { font-size: clamp(2.1rem, 3.6vw, 2.8rem); }
-@media (max-width: 800px) { .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; }
 .chip {
   min-height: 44px; padding: 0 16px; border: 1px solid var(--rule-strong); background: #fff; border-radius: var(--radius);
   font: 600 .95rem/1 var(--font-display); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); cursor: pointer;
@@ -612,6 +612,12 @@ legend { font: 700 1.3rem/1 var(--font-display); text-transform: uppercase; lett
 .cta-band .actions { display: flex; flex-wrap: wrap; gap: 12px; }
 
 /* ---------- Footer ---------- */
+/* Outline maps under the warehouse and factory addresses (Natural Earth, public domain;
+   regenerate with the footer map script noted in README). */
+.footer-map { display: block; width: 100%; max-width: 210px; height: auto; margin-top: 18px; }
+.footer-map .land { fill: var(--blue); stroke: var(--blue); stroke-width: .6; stroke-linejoin: round; }
+.footer-map .pin-ring { fill: #fff; }
+.footer-map .pin-dot { fill: var(--red); }
 .site-footer { background: var(--white); border-top: 4px solid var(--navy); padding: 56px 0 28px; font-size: .95rem; color: var(--ink-2); }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
 .footer-grid h2 { font: 600 .78rem/1 var(--font-mono); text-transform: uppercase; letter-spacing: .12em; color: var(--ink-3); margin: 0 0 14px; }
