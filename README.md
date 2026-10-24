@@ -12,7 +12,7 @@ A static website for US truck-parts distributors. It is plain HTML, CSS and Java
 | `products.html` | Full catalog with search and an OEM filter (Hendrickson, Neway, …). `?q=W01-358-9781` pre-fills the search |
 | `product.html?part=23-9781` | One page per product: technical drawing, interchange numbers, dimensions, print-friendly spec sheet |
 | `distributors.html` | "Become a distributor" application form |
-| `about.html` | About us: who we are, mission and vision, values, private label manufacturing |
+| `about.html` | About us: who we are, mission and vision, values, and the same private label panel as the home page |
 
 ## Adding or changing products
 

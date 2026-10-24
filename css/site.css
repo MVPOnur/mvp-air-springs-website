@@ -515,11 +515,7 @@ p { margin: 0 0 1em; }
 .mv-text { font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.45; font-weight: 500; color: var(--navy); margin: 0; }
 @media (max-width: 700px) { .mv { grid-template-columns: 1fr; } }
 .values .pillar-value { font-size: clamp(2.1rem, 3.6vw, 2.8rem); }
-.pl-about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px clamp(32px, 6vw, 80px); align-items: center; }
-.pl-about-text { color: var(--ink-2); font-size: 1.12rem; margin: 0 0 12px; }
-.pl-about .num-list { margin: 0; }
-@media (max-width: 800px) { .pl-about { grid-template-columns: 1fr; } }
-.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; }
+@media (max-width: 800px) { .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; }
 .chip {
   min-height: 44px; padding: 0 16px; border: 1px solid var(--rule-strong); background: #fff; border-radius: var(--radius);
   font: 600 .95rem/1 var(--font-display); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); cursor: pointer;
