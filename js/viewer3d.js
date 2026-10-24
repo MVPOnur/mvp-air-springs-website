@@ -40,7 +40,7 @@ function buildSpring(m, tex, mats) {
   const spring = new THREE.Group();
   const s = m.plate.r;
 
-  const rubber = new THREE.MeshStandardMaterial({ map: tex(`assets/3d/${m.part}-side.webp`), color: new THREE.Color(1.3, 1.3, 1.3), roughness: 0.6, envMapIntensity: 0.45 });
+  const rubber = new THREE.MeshStandardMaterial({ map: tex(`assets/3d/${m.part}-side.webp?v=2`), color: new THREE.Color(1.3, 1.3, 1.3), roughness: 0.6, envMapIntensity: 0.45 });
   spring.add(new THREE.Mesh(latheByHeight(m.rubber), rubber));
   spring.add(new THREE.Mesh(lathe(m.piston), m.pistonMaterial === "metal" ? mats.alu : mats.plastic));
   spring.add(new THREE.Mesh(lathe(m.plate.rim), mats.steel));

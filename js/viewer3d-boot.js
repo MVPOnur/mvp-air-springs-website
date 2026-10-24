@@ -9,7 +9,7 @@ const hasWebGL = (() => {
   }
 })();
 if (host && hasWebGL) {
-  import("./viewer3d.js")
+  import("./viewer3d.js?v=2")
     .then((m) => m.mountViewer(host, host.dataset.part))
     .catch((err) => console.error("3D viewer failed to load", err));
 } else if (host) {

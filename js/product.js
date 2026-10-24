@@ -44,7 +44,7 @@
       host.querySelectorAll(".legend, .units-note").forEach((el) => (el.hidden = tab.id === "tab-3d"));
       if (tab.id === "tab-3d" && !loaded) {
         loaded = true;
-        import("./viewer3d.js")
+        import("./viewer3d.js?v=2")
           .then((m) => m.mountViewer(panel3d, p.mvp))
           .catch((err) => { console.error(err); panel3d.innerHTML = '<p class="notice">The 3D view could not be loaded on this device.</p>'; });
       }
